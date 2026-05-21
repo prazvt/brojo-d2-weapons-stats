@@ -1,0 +1,113 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', sans-serif;
+
+  /* Premium Space Theme */
+  --color-space-dark: #0a0b0d;
+  --color-space-card: rgba(18, 20, 26, 0.65);
+  --color-space-panel: rgba(13, 15, 19, 0.85);
+  --color-glass-border: rgba(255, 255, 255, 0.07);
+  --color-glass-border-hover: rgba(255, 255, 255, 0.15);
+
+  /* Destiny 2 Element Highlight Colors */
+  --color-solar: #f56025;
+  --color-arc: #7ae0ff;
+  --color-void: #b57aff;
+  --color-kinetic: #eaeaea;
+  --color-stasis: #4da6ff;
+  --color-strand: #33e666;
+
+  /* Weapon Rarity Colors */
+  --color-legendary: #7b51b3;
+  --color-exotic: #ceae33;
+  --color-rare: #5076a3;
+  --color-common: #366f42;
+}
+
+/* Global Custom Styles */
+@layer base {
+  body {
+    background-color: var(--color-space-dark);
+    color: #e2e8f0;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(20, 22, 28, 0.4) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(24, 18, 30, 0.35) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* Custom Glassmorphism Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(10, 11, 13, 0.5);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+/* Dynamic Glowing Glass Card Styles */
+.glass-panel {
+  background: var(--color-space-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-panel:hover {
+  border-color: var(--color-glass-border-hover);
+}
+
+/* Neon Glow Selectors dynamically matched to elements */
+.glow-solar {
+  box-shadow: 0 0 12px rgba(245, 96, 37, 0.2);
+  text-shadow: 0 0 8px rgba(245, 96, 37, 0.4);
+}
+
+.glow-arc {
+  box-shadow: 0 0 12px rgba(122, 224, 255, 0.2);
+  text-shadow: 0 0 8px rgba(122, 224, 255, 0.4);
+}
+
+.glow-void {
+  box-shadow: 0 0 12px rgba(181, 122, 255, 0.2);
+  text-shadow: 0 0 8px rgba(181, 122, 255, 0.4);
+}
+
+.glow-stasis {
+  box-shadow: 0 0 12px rgba(77, 166, 255, 0.2);
+  text-shadow: 0 0 8px rgba(77, 166, 255, 0.4);
+}
+
+.glow-strand {
+  box-shadow: 0 0 12px rgba(51, 230, 102, 0.2);
+  text-shadow: 0 0 8px rgba(51, 230, 102, 0.4);
+}
+
+.glow-kinetic {
+  box-shadow: 0 0 12px rgba(234, 234, 234, 0.15);
+  text-shadow: 0 0 8px rgba(234, 234, 234, 0.3);
+}
+
+/* Slide and Fade transitions for smooth dynamic lists */
+.item-transition {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}

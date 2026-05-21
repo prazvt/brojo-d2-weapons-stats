@@ -1,0 +1,397 @@
+{
+  "16120457": {
+    "name": "Armor Energy Capacity",
+    "description": "This armor can accept armor mods up to a total cost equal to or below its energy capacity.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/435daeef2fc277af6476f2ffb9b18bcb.png"
+  },
+  "119204074": {
+    "name": "Fragment Cost",
+    "description": "The energy used by your build to activate fragments.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/435daeef2fc277af6476f2ffb9b18bcb.png"
+  },
+  "144602215": {
+    "name": "Super",
+    "description": "Increases the amount of Super energy from all sources.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/585ae4ede9c3da96b34086fccccdc8cd.png"
+  },
+  "155624089": {
+    "name": "Stability",
+    "description": "How much or little recoil you will experience while firing the weapon.",
+    "icon": null
+  },
+  "209426660": {
+    "name": "Guard Resistance",
+    "description": "Damage reduction while guarding with this weapon against most attacks.",
+    "icon": null
+  },
+  "237763788": {
+    "name": "Ghost Energy Capacity",
+    "description": "This Ghost can accept any Ghost mods.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/435daeef2fc277af6476f2ffb9b18bcb.png"
+  },
+  "360359141": {
+    "name": "Durability",
+    "description": "Higher Durability allows your vehicle to take more damage before failing.",
+    "icon": null
+  },
+  "392767087": {
+    "name": "Health",
+    "description": "Increases the amount of health you gain each time you pick up an Orb of Power. Reduces flinching from incoming fire while aiming a weapon.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/717b8b218cc14325a54869bef21d2964.png"
+  },
+  "447667954": {
+    "name": "Draw Time",
+    "description": "The time in milliseconds it takes to draw an arrow. Release an arrow when fully drawn for maximum damage and speed.",
+    "icon": null
+  },
+  "514071887": {
+    "name": "Mod Cost",
+    "description": "This Ghost can accept any Ghost mods.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/435daeef2fc277af6476f2ffb9b18bcb.png"
+  },
+  "602570185": {
+    "name": "Vent Speed",
+    "description": "The time it takes to vent this weapon.",
+    "icon": null
+  },
+  "765379354": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "925767036": {
+    "name": "Ammo Capacity",
+    "description": "How many powerful attacks this weapon can launch before ammo is depleted",
+    "icon": null
+  },
+  "943549884": {
+    "name": "Handling",
+    "description": "The speed with which the weapon can be readied and aimed.",
+    "icon": null
+  },
+  "953546184": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "998798867": {
+    "name": "Stasis Cost",
+    "description": "Stasis Armor Mod",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/829bceb514176cdf4cea28fbbfa74b40.png"
+  },
+  "1240592695": {
+    "name": "Range",
+    "description": "Increases the effective range of this weapon.",
+    "icon": null
+  },
+  "1345609583": {
+    "name": "Aim Assistance",
+    "description": "The weapon's ability to augment your aim.",
+    "icon": null
+  },
+  "1480404414": {
+    "name": "Attack",
+    "description": "Higher Attack allows your weapons to damage higher-level opponents.",
+    "icon": null
+  },
+  "1501155019": {
+    "name": "Speed",
+    "description": "How fast this vehicle travels over land.",
+    "icon": null
+  },
+  "1546607977": {
+    "name": "Heroic Resistance",
+    "description": "Provides additional damage resistance while your Super is active.",
+    "icon": null
+  },
+  "1546607978": {
+    "name": "Arc Damage Resistance",
+    "description": "Reduces all incoming damage while your Super is active. Reduces incoming Arc damage from combatants.",
+    "icon": null
+  },
+  "1546607979": {
+    "name": "Solar Damage Resistance",
+    "description": "Reduces all incoming damage while your Super is active. Reduces incoming Solar damage from combatants.",
+    "icon": null
+  },
+  "1546607980": {
+    "name": "Void Damage Resistance",
+    "description": "Reduces all incoming damage while your Super is active. Reduces incoming Void damage from combatants.",
+    "icon": null
+  },
+  "1591432999": {
+    "name": "Accuracy",
+    "description": "How well shots fired by this weapon hit their target.",
+    "icon": null
+  },
+  "1735777505": {
+    "name": "Grenade",
+    "description": "Reduces your grenade ability cooldown. Increases the amount of grenade energy from all sources.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/065cdaabef560e5808e821cefaeaa22c.png"
+  },
+  "1842278586": {
+    "name": "Shield Duration",
+    "description": "How long this weapon's shield can be raised.",
+    "icon": null
+  },
+  "1885944937": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "1931675084": {
+    "name": "Ammo Generation",
+    "description": "Ammo progress earned for final blows with this weapon. Primary weapons generate the most progress. Heavy and Special weapons generate additional progress towards the ammo type that they do not use.",
+    "icon": null
+  },
+  "1935470627": {
+    "name": "Power",
+    "description": "Raising your Power increases the damage your abilities deal against higher-level combatants.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/717b8b218cc14325a54869bef21d2964.png"
+  },
+  "1943323491": {
+    "name": "Class",
+    "description": "Reduces your class ability cooldown. Increases the amount of class ability energy provided by all sources.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/7eb845acb5b3a4a9b7e0b2f05f5c43f1.png"
+  },
+  "2018193158": {
+    "name": "Armor Energy Capacity",
+    "description": "This armor can accept armor mods up to a total cost equal to or below its energy capacity.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/435daeef2fc277af6476f2ffb9b18bcb.png"
+  },
+  "2135857333": {
+    "name": "Class",
+    "description": "Reduces your class ability cooldown. Increases the amount of class ability energy provided by all sources.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/fa534aca76d7f2d7e7b4ba4df4271b42.png"
+  },
+  "2223994109": {
+    "name": "Aspect Energy Capacity",
+    "description": "The energy used by your build to activate fragments.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/435daeef2fc277af6476f2ffb9b18bcb.png"
+  },
+  "2299076437": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "2341766298": {
+    "name": "Handicap",
+    "description": "Handicap",
+    "icon": null
+  },
+  "2399985800": {
+    "name": "Void Cost",
+    "description": "Void Armor Mod",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/a5432d320a789d5aad6f5b97a9453740.png"
+  },
+  "2441327376": {
+    "name": "Armor Energy Capacity",
+    "description": "This armor can accept armor mods up to a total cost equal to or below its energy capacity.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/435daeef2fc277af6476f2ffb9b18bcb.png"
+  },
+  "2523465841": {
+    "name": "Velocity",
+    "description": "Increases the speed of projectiles fired by this weapon.",
+    "icon": null
+  },
+  "2714457168": {
+    "name": "Airborne Effectiveness",
+    "description": "How accurate and stable this weapon is while airborne.",
+    "icon": null
+  },
+  "2715839340": {
+    "name": "Recoil Direction",
+    "description": "The weapon's tendency to move while firing.",
+    "icon": null
+  },
+  "2733264856": {
+    "name": "Score Multiplier",
+    "description": "Amount by which the current handicap is increasing score values.",
+    "icon": null
+  },
+  "2755327046": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "2762071195": {
+    "name": "Guard Efficiency",
+    "description": "Reduces the amount of energy required to guard an attack.",
+    "icon": null
+  },
+  "2837207746": {
+    "name": "Swing Speed",
+    "description": "The speed at which you can launch attacks.",
+    "icon": null
+  },
+  "2961396640": {
+    "name": "Charge Time",
+    "description": "The time in milliseconds before a weapon fires.",
+    "icon": null
+  },
+  "2996146975": {
+    "name": "Weapons",
+    "description": "Increases weapon reload speed and handling. Increases weapon damage against minor and major combatants.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/bc69675acdae9e6b9a68a02fb4d62e07.png"
+  },
+  "3017642079": {
+    "name": "Boost",
+    "description": "How much speed can be gained from boosting.",
+    "icon": null
+  },
+  "3022301683": {
+    "name": "Charge Rate",
+    "description": "How fast this weapon recharges its energy.",
+    "icon": null
+  },
+  "3085395333": {
+    "name": "Persistence",
+    "description": "Increases the amount of time that bolts fired by this weapon will linger before expiring.",
+    "icon": null
+  },
+  "3123546339": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "3209419233": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "3289069874": {
+    "name": "Power Bonus",
+    "description": "The Seasonal Artifact increases your Power, increasing the damage your abilities deal against higher-level combatants.",
+    "icon": null
+  },
+  "3291498656": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "3291498658": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "3291498659": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "3291498661": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "3344745325": {
+    "name": "Solar Cost",
+    "description": "Solar Armor Mod",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/68bc48859bfdcbf9aba4ad03e77685a7.png"
+  },
+  "3409715177": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "3481294762": {
+    "name": "Heat Generated",
+    "description": "The amount of heat generated per shot fired.",
+    "icon": null
+  },
+  "3493869314": {
+    "name": "Melee",
+    "description": "Reduces your melee cooldown. Increases the amount of melee energy from all sources.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/fa534aca76d7f2d7e7b4ba4df4271b42.png"
+  },
+  "3555269338": {
+    "name": "Zoom",
+    "description": "How much the weapon's scope can zoom in on targets.",
+    "icon": null
+  },
+  "3578062600": {
+    "name": "Any Energy Type Cost",
+    "description": "Any Energy Type",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/435daeef2fc277af6476f2ffb9b18bcb.png"
+  },
+  "3597844532": {
+    "name": "Precision Damage",
+    "description": "Damage when striking a target's weak points.",
+    "icon": null
+  },
+  "3614673599": {
+    "name": "Blast Radius",
+    "description": "Increases the explosion radius of this weapon.",
+    "icon": null
+  },
+  "3625423501": {
+    "name": "Armor Energy Capacity",
+    "description": "This armor can accept armor mods up to a total cost equal to or below its energy capacity.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/435daeef2fc277af6476f2ffb9b18bcb.png"
+  },
+  "3736848092": {
+    "name": "Guard Endurance",
+    "description": "How long you can maintain your guard with this weapon.",
+    "icon": null
+  },
+  "3779394102": {
+    "name": "Arc Cost",
+    "description": "Arc Armor Mod",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/d85b5b06fa2f6ea6838c2f2523715e8a.png"
+  },
+  "3784226438": {
+    "name": "Unknown Stat",
+    "description": "",
+    "icon": null
+  },
+  "3871231066": {
+    "name": "Magazine",
+    "description": "The number of shots which can be fired before reloading.",
+    "icon": null
+  },
+  "3897883278": {
+    "name": "Defense",
+    "description": "Reduces incoming damage from your enemies.",
+    "icon": null
+  },
+  "3907551967": {
+    "name": "Move Speed",
+    "description": "Speed while carrying the weapon.",
+    "icon": null
+  },
+  "3950461274": {
+    "name": "Armor Energy Capacity",
+    "description": "This armor can accept armor mods up to a total cost equal to or below its energy capacity.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/435daeef2fc277af6476f2ffb9b18bcb.png"
+  },
+  "3988418950": {
+    "name": "Time to Aim Down Sights",
+    "description": "Speed while aiming down the sights.",
+    "icon": null
+  },
+  "4006394725": {
+    "name": "Cooling Efficiency",
+    "description": "How quickly the weapon cools per second when not being fired.",
+    "icon": null
+  },
+  "4043523819": {
+    "name": "Impact",
+    "description": "Increases the damage inflicted by each round.",
+    "icon": null
+  },
+  "4188031367": {
+    "name": "Reload Speed",
+    "description": "The time it takes to reload this weapon.",
+    "icon": null
+  },
+  "4244567218": {
+    "name": "Melee",
+    "description": "Reduces your melee cooldown. Increases the amount of melee energy from all sources.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/fa534aca76d7f2d7e7b4ba4df4271b42.png"
+  },
+  "4284893193": {
+    "name": "Rounds Per Minute",
+    "description": "The number of shots per minute this weapon can fire.",
+    "icon": null
+  }
+}
