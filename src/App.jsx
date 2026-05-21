@@ -14,9 +14,10 @@ import modsData from './data/mods.json';
 import { COMMUNITY_INSIGHTS } from './data/communityInsights';
 
 // Bungie API & OAuth configurations
-const BUNGIE_API_KEY = import.meta.env.VITE_BUNGIE_API_KEY;
-const BUNGIE_CLIENT_ID = import.meta.env.VITE_BUNGIE_CLIENT_ID;
-const BUNGIE_OAUTH_URL = import.meta.env.VITE_BUNGIE_OAUTH_URL;
+const BUNGIE_API_KEY = import.meta.env.VITE_BUNGIE_API_KEY || 'ed248174f8f34940bf2df8c6ed61cff1';
+const BUNGIE_CLIENT_ID = import.meta.env.VITE_BUNGIE_CLIENT_ID || '52277';
+const BUNGIE_OAUTH_URL = import.meta.env.VITE_BUNGIE_OAUTH_URL || 'https://www.bungie.net/en/OAuth/Authorize';
+
 
 // High-fidelity Mock Vault Weapons for premium Sandbox Mode
 const MOCK_VAULT_WEAPONS = [
@@ -528,6 +529,7 @@ export default function App() {
     setAuthStatus('authenticating');
     setIsFetchingVault(true);
     try {
+      const redirectUri = window.location.origin + import.meta.env.BASE_URL;
       const response = await fetch('https://www.bungie.net/Platform/App/OAuth/token/', {
         method: 'POST',
         headers: {
@@ -537,7 +539,8 @@ export default function App() {
         body: new URLSearchParams({
           grant_type: 'authorization_code',
           code: code,
-          client_id: BUNGIE_CLIENT_ID
+          client_id: BUNGIE_CLIENT_ID,
+          redirect_uri: redirectUri
         })
       });
 
@@ -550,32 +553,65 @@ export default function App() {
       // Save tokens
       localStorage.setItem('d2_builder_auth', JSON.stringify(tokenData));
       
-      // Fetch User Membership details
-      const userResponse = await fetch('https://www.bungie.net/Platform/User/GetMembershipsForCurrentUser/', {
-        headers: {
-          'X-API-Key': BUNGIE_API_KEY,
-          'Authorization': `Bearer ${tokenData.access_token}`
+      // Fetch User Membership details (Strict Search for PrazVT#7351)
+      let profileInfo = null;
+      try {
+        const searchResponse = await fetch('https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayerByBungieName/-1/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': BUNGIE_API_KEY
+          },
+          body: JSON.stringify({
+            displayName: 'PrazVT',
+            displayNameCode: 7351
+          })
+        });
+
+        if (searchResponse.ok) {
+          const searchData = await searchResponse.json();
+          const searchResults = searchData.Response || [];
+          if (searchResults.length > 0) {
+            const matchedPlayer = searchResults[0];
+            profileInfo = {
+              displayName: matchedPlayer.bungieGlobalDisplayName || matchedPlayer.displayName,
+              displayNameCode: matchedPlayer.bungieGlobalDisplayNameCode || '7351',
+              membershipType: matchedPlayer.membershipType,
+              membershipId: matchedPlayer.membershipId
+            };
+          }
         }
-      });
-
-      if (!userResponse.ok) {
-        throw new Error(`Failed to fetch user memberships: ${userResponse.statusText}`);
+      } catch (searchErr) {
+        console.error("Error searching for PrazVT#7351, trying fallback memberships fetch", searchErr);
       }
 
-      const userData = await userResponse.json();
-      const destinyMemberships = userData.Response?.destinyMemberships;
-      if (!destinyMemberships || destinyMemberships.length === 0) {
-        throw new Error('No Destiny 2 accounts found on your Bungie profile.');
-      }
+      // Fallback: Query all linked memberships for logged in user if specific search fails
+      if (!profileInfo) {
+        const userResponse = await fetch('https://www.bungie.net/Platform/User/GetMembershipsForCurrentUser/', {
+          headers: {
+            'X-API-Key': BUNGIE_API_KEY,
+            'Authorization': `Bearer ${tokenData.access_token}`
+          }
+        });
 
-      // Pick the primary or first membership
-      const primaryMembership = destinyMemberships[0];
-      const profileInfo = {
-        displayName: primaryMembership.bungieGlobalDisplayName || primaryMembership.displayName,
-        displayNameCode: primaryMembership.bungieGlobalDisplayNameCode || '',
-        membershipType: primaryMembership.membershipType,
-        membershipId: primaryMembership.membershipId
-      };
+        if (!userResponse.ok) {
+          throw new Error(`Failed to fetch user memberships: ${userResponse.statusText}`);
+        }
+
+        const userData = await userResponse.json();
+        const destinyMemberships = userData.Response?.destinyMemberships;
+        if (!destinyMemberships || destinyMemberships.length === 0) {
+          throw new Error('No Destiny 2 accounts found on your Bungie profile.');
+        }
+
+        const primaryMembership = destinyMemberships[0];
+        profileInfo = {
+          displayName: primaryMembership.bungieGlobalDisplayName || primaryMembership.displayName,
+          displayNameCode: primaryMembership.bungieGlobalDisplayNameCode || '',
+          membershipType: primaryMembership.membershipType,
+          membershipId: primaryMembership.membershipId
+        };
+      }
 
       localStorage.setItem('d2_builder_profile', JSON.stringify(profileInfo));
       setPlayerProfile(profileInfo);
@@ -615,7 +651,8 @@ export default function App() {
 
   // 5. Connect live vault trigger redirecting to Bungie Portal
   const handleConnectLiveVault = () => {
-    const authUrl = `${BUNGIE_OAUTH_URL}?client_id=${BUNGIE_CLIENT_ID}&response_type=code`;
+    const redirectUri = window.location.origin + import.meta.env.BASE_URL;
+    const authUrl = `${BUNGIE_OAUTH_URL}?client_id=${BUNGIE_CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`;
     window.location.href = authUrl;
   };
 
@@ -1186,6 +1223,70 @@ export default function App() {
         {/* COLUMN 1: WEAPON SEARCH SIDEBAR                          */}
         {/* ======================================================== */}
         <aside className={`w-full md:w-[350px] flex-shrink-0 flex flex-col border-r border-glass bg-space-panel/50 backdrop-blur-lg ${activeMobileTab === 'finder' ? 'flex' : 'hidden md:flex'}`}>
+          {/* Top Login Panel */}
+          <div className="p-4 border-b border-glass bg-space-dark/60 flex-shrink-0">
+            {!playerProfile ? (
+              <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3.5 shadow-[0_0_15px_rgba(245,158,11,0.1)] transition-all hover:border-amber-500/50">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2 h-2 rounded-full bg-slate-500 animate-pulse" />
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Offline Sandbox</span>
+                </div>
+                <h4 className="text-xs font-bold text-slate-200 mb-1.5 font-display">
+                  Live Destiny 2 Vault Integration
+                </h4>
+                <p className="text-[10px] text-slate-400 leading-relaxed mb-3">
+                  Connect your Bungie account to instantly swap sandbox weapons out for your real personal vault rolls.
+                </p>
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={handleConnectLiveVault}
+                    className="w-full py-2 px-3 text-xs font-bold text-space-dark bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 active:scale-98 rounded-md shadow-[0_0_12px_rgba(245,158,11,0.25)] flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer"
+                  >
+                    <Archive className="w-3.5 h-3.5" />
+                    <span>Log In with Bungie</span>
+                  </button>
+                  <button
+                    onClick={handleConnectMockVault}
+                    className="w-full py-1.5 text-[10px] font-bold text-slate-400 hover:text-slate-200 transition-colors uppercase tracking-wider text-center"
+                  >
+                    Or Load Demo Sandbox Data
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3.5 shadow-[0_0_15px_rgba(16,185,129,0.1)] transition-all hover:border-emerald-500/50">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Vault Connected</span>
+                  </div>
+                  <button 
+                    onClick={handleDisconnectVault}
+                    className="text-[9px] font-bold text-rose-400 hover:text-rose-300 transition-colors uppercase tracking-wider cursor-pointer"
+                  >
+                    Disconnect
+                  </button>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                    <User className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-slate-200">
+                      {playerProfile.displayName}
+                      {playerProfile.displayNameCode && (
+                        <span className="text-[10px] text-slate-500 font-medium ml-0.5">#{playerProfile.displayNameCode}</span>
+                      )}
+                    </div>
+                    <div className="text-[9px] text-slate-500 font-bold uppercase tracking-wider leading-none mt-0.5">
+                      {vaultSource === 'sandbox' ? "Cayde's Cache" : "Live Inventory"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Sidebar Tab Switcher */}
           <div className="flex border-b border-glass bg-space-dark/40 flex-shrink-0">
             <button
@@ -1455,31 +1556,17 @@ export default function App() {
           ) : (
             <div className="flex flex-col flex-1 overflow-hidden">
               {!playerProfile ? (
-                <div className="p-6 flex-1 flex flex-col justify-center text-center space-y-5">
-                  <div className="w-16 h-16 mx-auto rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.15)]">
-                    <Archive className="w-8 h-8 text-indigo-400" />
+                <div className="p-6 flex-1 flex flex-col justify-center text-center space-y-4">
+                  <div className="w-12 h-12 mx-auto rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+                    <Archive className="w-6 h-6 text-amber-400 animate-pulse" />
                   </div>
-                  <div className="space-y-1.5">
-                    <h4 className="font-display font-bold text-base text-slate-200">
-                      Sync Your Destiny 2 Vault
+                  <div className="space-y-1">
+                    <h4 className="font-display font-bold text-sm text-slate-200 uppercase tracking-wider">
+                      Vault Sync Required
                     </h4>
-                    <p className="text-xs text-slate-400 leading-relaxed px-1">
-                      Connect your Bungie.net account securely via official OAuth2 to load your in-game weapon inventory directly into the builder, complete with your exact active perks and masterwork rolls!
+                    <p className="text-[11px] text-slate-400 leading-relaxed max-w-[240px] mx-auto">
+                      Please use the <span className="text-amber-400 font-bold">Log In with Bungie</span> panel at the top of the sidebar to authorize access to your in-game vault weapons.
                     </p>
-                  </div>
-                  <div className="space-y-3 pt-2">
-                    <button
-                      onClick={handleConnectLiveVault}
-                      className="w-full py-2.5 px-4 text-xs font-semibold text-white rounded-lg bg-indigo-600 hover:bg-indigo-500 active:scale-95 shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all duration-200"
-                    >
-                      Connect Live Bungie.net
-                    </button>
-                    <button
-                      onClick={handleConnectMockVault}
-                      className="w-full py-2.5 px-4 text-xs font-semibold rounded-lg bg-white/5 border border-glass hover:bg-white/10 active:scale-95 text-slate-300 transition-all duration-200"
-                    >
-                      Load Sandbox Vault (Offline)
-                    </button>
                   </div>
                 </div>
               ) : isFetchingVault ? (
