@@ -61,6 +61,6 @@ export default async function handler(req, res) {
     return res.status(200).json(data);
   } catch (error) {
     console.error('Proxy Server Exception:', error);
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message, stack: error.stack, phase: 'Bungie API token request execution' });
   }
 }
