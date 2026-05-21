@@ -529,15 +529,10 @@ export default function App() {
     setAuthStatus('authenticating');
     setIsFetchingVault(true);
     try {
-      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      const redirectUri = isLocalhost 
-        ? (window.location.origin + import.meta.env.BASE_URL) 
-        : 'https://vercel.app';
       const params = new URLSearchParams();
       params.append('grant_type', 'authorization_code');
-      if (code) params.append('code', code);
-      if (BUNGIE_CLIENT_ID) params.append('client_id', BUNGIE_CLIENT_ID);
-      if (redirectUri) params.append('redirect_uri', redirectUri);
+      params.append('client_id', BUNGIE_CLIENT_ID);
+      params.append('code', code);
 
       console.log("OAuth token exchange keys transmitted:", Array.from(params.keys()));
 
