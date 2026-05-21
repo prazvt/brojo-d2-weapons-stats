@@ -46,7 +46,7 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'X-API-Key': process.env.VITE_BUNGIE_API_KEY || ''
+        'X-API-Key': process.env.BUNGIE_API_KEY || process.env.VITE_BUNGIE_API_KEY || ''
       },
       body: bodyParams.toString()
     });
