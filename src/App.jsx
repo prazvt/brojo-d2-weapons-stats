@@ -1095,7 +1095,7 @@ export default function App() {
       <header className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 border-b bg-space-dark/80 backdrop-blur-md border-glass">
         <div className="flex items-center gap-3">
           <img 
-            src="/logo.png" 
+            src={`${import.meta.env.BASE_URL}logo.png`} 
             alt="BroJo Dojo Logo" 
             className="w-10 h-10 object-contain rounded-lg shadow-[0_0_15px_rgba(124,58,237,0.3)] border border-purple-500/25 bg-space-dark/60 p-0.5" 
           />
