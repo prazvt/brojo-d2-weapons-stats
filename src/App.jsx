@@ -535,21 +535,17 @@ export default function App() {
         ? (window.location.origin + import.meta.env.BASE_URL) 
         : 'https://vercel.app';
 
-      const body = new URLSearchParams();
-      body.append('grant_type', 'authorization_code');
-      body.append('client_id', '52277');
-      body.append('code', codeParam);
-      body.append('redirect_uri', redirectUri);
+      console.log("Routing OAuth token exchange via Vercel Serverless proxy: /api/token");
 
-      console.log("OAuth token exchange keys transmitted:", Array.from(body.keys()));
-
-      const response = await fetch('https://www.bungie.net/Platform/App/OAuth/Token', {
+      const response = await fetch('/api/token', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'X-API-Key': BUNGIE_API_KEY
+          'Content-Type': 'application/json'
         },
-        body: body.toString()
+        body: JSON.stringify({
+          code: codeParam,
+          redirect_uri: redirectUri
+        })
       });
 
       if (!response.ok) {
