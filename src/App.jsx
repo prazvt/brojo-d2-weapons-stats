@@ -543,7 +543,7 @@ export default function App() {
 
       console.log("OAuth token exchange keys transmitted:", Array.from(body.keys()));
 
-      const response = await fetch('https://www.bungie.net/Platform/App/OAuth/token', {
+      const response = await fetch('https://www.bungie.net/Platform/App/OAuth/Token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
