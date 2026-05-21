@@ -16,12 +16,29 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing authorization code' });
     }
 
-    // 2. Build a strict URLSearchParams string body payload
+    // 2. Resolve redirect_uri dynamically based on active request host origin (req.headers.origin or window.location.origin)
+    let origin = (req.body && req.body.redirect_uri) || req.headers.origin || req.headers.referer || '';
+    let redirectUri = origin.replace(/\/$/, '').toLowerCase();
+    
+    // Extract strictly the origin if referer had sub-paths
+    if (redirectUri && !redirectUri.startsWith('http://localhost') && !redirectUri.startsWith('http://127.0.0.1')) {
+      try {
+        const urlObj = new URL(redirectUri);
+        redirectUri = urlObj.origin.replace(/\/$/, '').toLowerCase();
+      } catch (e) {
+        // Fallback to sanitised string
+      }
+    }
+
+    if (!redirectUri) {
+      redirectUri = 'https://vercel.app';
+    }
+
     const bodyParams = new URLSearchParams({
       grant_type: 'authorization_code',
       client_id: '52277',
       code: code,
-      redirect_uri: 'https://vercel.app'
+      redirect_uri: redirectUri
     });
 
     // 3. Fire the secure POST call to Bungie with required headers
