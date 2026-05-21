@@ -529,12 +529,13 @@ export default function App() {
     setAuthStatus('authenticating');
     setIsFetchingVault(true);
     try {
-      const params = new URLSearchParams();
-      params.append('grant_type', 'authorization_code');
-      params.append('client_id', BUNGIE_CLIENT_ID);
-      params.append('code', code);
+      const codeParam = code;
+      const body = new URLSearchParams();
+      body.append('grant_type', 'authorization_code');
+      body.append('client_id', '52277');
+      body.append('code', codeParam);
 
-      console.log("OAuth token exchange keys transmitted:", Array.from(params.keys()));
+      console.log("OAuth token exchange keys transmitted:", Array.from(body.keys()));
 
       const response = await fetch('https://www.bungie.net/Platform/App/OAuth/token/', {
         method: 'POST',
@@ -542,7 +543,7 @@ export default function App() {
           'Content-Type': 'application/x-www-form-urlencoded',
           'X-API-Key': BUNGIE_API_KEY
         },
-        body: params
+        body: body.toString()
       });
 
       if (!response.ok) {
