@@ -4,10 +4,11 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/brojo-d2-weapons-stats/',
+  base: '/',
   plugins: [
     react(),
     tailwindcss(),
   ],
 })
+
 
