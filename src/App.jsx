@@ -625,6 +625,10 @@ export default function App() {
       await fetchLiveVault(tokenData.access_token, profileInfo);
       
       // Clear URL parameter code cleanly
+      if (window.history.replaceState) {
+        const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+      }
       navigate('/', { replace: true });
     } catch (err) {
       console.error("Authentication failed", err);
@@ -686,7 +690,8 @@ export default function App() {
 
   // Handle URL callback codes and storage verification on mount
   useEffect(() => {
-    const code = searchParams.get('code');
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
     if (code) {
       handleOAuthTokenExchange(code);
     } else {
