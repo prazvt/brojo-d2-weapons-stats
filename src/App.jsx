@@ -530,10 +530,16 @@ export default function App() {
     setIsFetchingVault(true);
     try {
       const codeParam = code;
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const redirectUri = isLocalhost 
+        ? (window.location.origin + import.meta.env.BASE_URL) 
+        : 'https://vercel.app';
+
       const body = new URLSearchParams();
       body.append('grant_type', 'authorization_code');
       body.append('client_id', '52277');
       body.append('code', codeParam);
+      body.append('redirect_uri', redirectUri);
 
       console.log("OAuth token exchange keys transmitted:", Array.from(body.keys()));
 
