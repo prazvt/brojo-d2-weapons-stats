@@ -533,18 +533,21 @@ export default function App() {
       const redirectUri = isLocalhost 
         ? (window.location.origin + import.meta.env.BASE_URL) 
         : 'https://vercel.app';
+      const params = new URLSearchParams();
+      params.append('grant_type', 'authorization_code');
+      if (code) params.append('code', code);
+      if (BUNGIE_CLIENT_ID) params.append('client_id', BUNGIE_CLIENT_ID);
+      if (redirectUri) params.append('redirect_uri', redirectUri);
+
+      console.log("OAuth token exchange keys transmitted:", Array.from(params.keys()));
+
       const response = await fetch('https://www.bungie.net/Platform/App/OAuth/token/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'X-API-Key': BUNGIE_API_KEY
         },
-        body: new URLSearchParams({
-          grant_type: 'authorization_code',
-          code: code,
-          client_id: BUNGIE_CLIENT_ID,
-          redirect_uri: redirectUri
-        })
+        body: params
       });
 
       if (!response.ok) {
