@@ -24,7 +24,8 @@ module.exports = async (req, res) => {
     }
   }
 
-  if (!redirectUri) {
+  // Ensure it matches your exact domain string: 'https://vercel.app' when not on localhost
+  if (!redirectUri || (!redirectUri.startsWith('http://localhost') && !redirectUri.startsWith('http://127.0.0.1'))) {
     redirectUri = 'https://vercel.app';
   }
 

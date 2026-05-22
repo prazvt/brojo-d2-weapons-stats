@@ -529,8 +529,10 @@ export default function App() {
     setAuthStatus('authenticating');
     setIsFetchingVault(true);
     try {
-      const codeParam = code;
-      const redirectUri = window.location.origin.replace(/\/$/, '').toLowerCase();
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const redirectUri = isLocalhost 
+        ? window.location.origin.replace(/\/$/, '').toLowerCase() 
+        : 'https://vercel.app';
 
       console.log("Routing OAuth token exchange via Vercel Serverless proxy: /api/token");
 
@@ -656,7 +658,10 @@ export default function App() {
 
   // 5. Connect live vault trigger redirecting to Bungie Portal
   const handleConnectLiveVault = () => {
-    const redirectUri = window.location.origin.replace(/\/$/, '').toLowerCase();
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const redirectUri = isLocalhost 
+      ? window.location.origin.replace(/\/$/, '').toLowerCase() 
+      : 'https://vercel.app';
     const authUrl = `${BUNGIE_OAUTH_URL}?client_id=${BUNGIE_CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`;
     window.location.href = authUrl;
   };
