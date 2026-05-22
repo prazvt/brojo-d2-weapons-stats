@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
     }
 
     // 3. Construct a standard form-urlencoded payload string package
-    const bodyParams = `grant_type=authorization_code&client_id=52277&code=${encodeURIComponent(code)}&redirect_uri=${encodeURIComponent('https://vercel.app')}`;
+    const bodyParams = `grant_type=authorization_code&client_id=52277&code=${encodeURIComponent(code)}&redirect_uri=${encodeURIComponent('https://brojo-d2-weapons-stats.vercel.app')}`;
 
     const options = {
       hostname: 'www.bungie.net',
