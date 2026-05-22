@@ -5,20 +5,34 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+  if (req.method === 'OPTIONS') return res.status(200).end();
+
+  const code = req.query.code || (req.body && req.body.code);
+  if (!code) return res.status(400).json({ error: 'Missing code' });
+
+  // Resolve redirect_uri dynamically based on active request host origin (req.headers.origin or window.location.origin)
+  let origin = (req.body && req.body.redirect_uri) || req.headers.origin || req.headers.referer || '';
+  let redirectUri = origin.replace(/\/$/, '').toLowerCase();
+  
+  // Extract strictly the origin if referer had sub-paths
+  if (redirectUri && !redirectUri.startsWith('http://localhost') && !redirectUri.startsWith('http://127.0.0.1')) {
+    try {
+      const urlObj = new URL(redirectUri);
+      redirectUri = urlObj.origin.replace(/\/$/, '').toLowerCase();
+    } catch (e) {
+      // Fallback to sanitised string
+    }
   }
 
-  const code = req.query.code || req.body.code;
-  if (!code) {
-    return res.status(400).json({ error: 'Missing authorization code' });
+  if (!redirectUri) {
+    redirectUri = 'https://vercel.app';
   }
 
   const bodyParams = new URLSearchParams({
     grant_type: 'authorization_code',
     client_id: '52277',
     code: code,
-    redirect_uri: 'https://vercel.app'
+    redirect_uri: redirectUri
   }).toString();
 
   const options = {
@@ -33,22 +47,20 @@ module.exports = async (req, res) => {
   };
 
   const bungieRequest = https.request(options, (bungieRes) => {
-    let data = '';
-    bungieRes.on('data', (chunk) => { data += chunk; });
+    let chunks = [];
+    bungieRes.on('data', (chunk) => { chunks.push(chunk); });
     bungieRes.on('end', () => {
+      const responseBody = Buffer.concat(chunks).toString();
       try {
-        const parsedData = JSON.parse(data);
+        const parsedData = JSON.parse(responseBody);
         res.status(bungieRes.statusCode).json(parsedData);
       } catch (e) {
-        res.status(500).json({ error: 'Failed to parse Bungie response' });
+        res.status(500).json({ error: 'JSON parse error', raw: responseBody });
       }
     });
   });
 
-  bungieRequest.on('error', (error) => {
-    res.status(500).json({ error: error.message });
-  });
-
+  bungieRequest.on('error', (err) => res.status(500).json({ error: err.message }));
   bungieRequest.write(bodyParams);
   bungieRequest.end();
 };
