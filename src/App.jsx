@@ -3,7 +3,7 @@ import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { 
   Search, SlidersHorizontal, Share2, Compass, ShieldAlert, Sword, 
   Zap, Sparkles, Layers, Activity, Info, X, ChevronRight, Copy, Check, InfoIcon,
-  Archive, User, LogOut, RefreshCw, Target, Plus
+  RefreshCw, Target, Plus
 } from 'lucide-react';
 
 // Static Data Imports
@@ -12,79 +12,6 @@ import perksData from './data/perks.json';
 import statsData from './data/stats.json';
 import modsData from './data/mods.json';
 import { COMMUNITY_INSIGHTS } from './data/communityInsights';
-
-// Bungie API & OAuth configurations
-const BUNGIE_API_KEY = import.meta.env.VITE_BUNGIE_API_KEY || 'ed248174f8f34940bf2df8c6ed61cff1';
-const BUNGIE_CLIENT_ID = import.meta.env.VITE_BUNGIE_CLIENT_ID || '52277';
-const BUNGIE_OAUTH_URL = import.meta.env.VITE_BUNGIE_OAUTH_URL || 'https://www.bungie.net/en/OAuth/Authorize';
-
-
-// High-fidelity Mock Vault Weapons for premium Sandbox Mode
-const MOCK_VAULT_WEAPONS = [
-  {
-    instanceId: 'mock-coup-1',
-    hash: 2763843898,
-    name: 'Midnight Coup',
-    customRollName: 'Outlaw + Kinetic Tremors',
-    source: 'Vault',
-    activePerks: {
-      0: 1294026524, // Intrinsic Frame
-      1: 1482024992, // Smallbore
-      2: 3142289711, // Accurized Rounds
-      3: 1168162263, // Outlaw
-      4: 3891536761, // Kinetic Tremors
-      7: 2942552113, // Stability MW
-      8: 2489430594  // Indomitability
-    }
-  },
-  {
-    instanceId: 'mock-luna-1',
-    hash: 276384399,
-    name: "Luna's Howl",
-    customRollName: 'Slideshot + Magnificent Howl',
-    source: 'Equipped',
-    activePerks: {
-      0: 1322370662, // Precision Frame
-      1: 1482024992, // Smallbore
-      2: 1885400500, // Ricochet Rounds
-      3: 3161816588, // Slideshot
-      4: 2720533289, // Magnificent Howl
-      5: 2489430594, // Indomitability
-      8: 150943607   // Range MW
-    }
-  },
-  {
-    instanceId: 'mock-recluse-1',
-    hash: 3098328572,
-    name: 'The Recluse',
-    customRollName: 'Feeding Frenzy + Master of Arms',
-    source: 'Vault',
-    activePerks: {
-      0: 1458010786, // Lightweight Frame
-      1: 1392496348, // Polygonal Rifling
-      2: 1885400500, // Ricochet Rounds
-      3: 2779035018, // Feeding Frenzy
-      4: 3081867624, // Master of Arms
-      7: 2942552113, // Stability MW
-      8: 2489430594  // Indomitability
-    }
-  },
-  {
-    instanceId: 'mock-apex-1',
-    hash: 2545083870,
-    name: 'Apex Predator',
-    customRollName: 'Tracking + Cluster Bomb',
-    source: 'Carried',
-    activePerks: {
-      0: 1294026524, // Adaptive Frame
-      1: 3525010810, // Quick Launch
-      2: 3796465595, // Impact Casing
-      3: 3977735242, // Tracking Module
-      4: 1275731761, // Cluster Bomb
-      7: 3444329767  // Blast Radius MW
-    }
-  }
-];
 
 // Weapon mod descriptions fallbacks (since Bungie manifest stores standard/adept descriptions under different nodes)
 const MOD_DESCRIPTIONS = {
@@ -401,318 +328,6 @@ export default function App() {
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, [hoveredPerk]);
-
-  // Vault & OAuth Integration States
-  const [sidebarTab, setSidebarTab] = useState('database'); // database or vault
-  const [vaultSource, setVaultSource] = useState(null); // sandbox or live
-  const [playerProfile, setPlayerProfile] = useState(null);
-  const [vaultWeapons, setVaultWeapons] = useState([]);
-  const [isFetchingVault, setIsFetchingVault] = useState(false);
-  const [authStatus, setAuthStatus] = useState('idle'); // idle, authenticating, authenticated, error
-  const [vaultSearchTerm, setVaultSearchTerm] = useState('');
-
-  // 1. Process and filter connected Vault inventory
-  const filteredVaultWeapons = useMemo(() => {
-    return vaultWeapons.filter(w => 
-      w.name.toLowerCase().includes(vaultSearchTerm.toLowerCase()) || 
-      w.customRollName.toLowerCase().includes(vaultSearchTerm.toLowerCase())
-    );
-  }, [vaultWeapons, vaultSearchTerm]);
-
-  // 2. Client-Side Destiny live vault details fetcher
-  const fetchLiveVault = async (accessToken, profile) => {
-    setIsFetchingVault(true);
-    try {
-      const response = await fetch(
-        `https://www.bungie.net/Platform/Destiny2/${profile.membershipType}/Profile/${profile.membershipId}/?components=102,201,205,305`,
-        {
-          headers: {
-            'X-API-Key': BUNGIE_API_KEY,
-            'Authorization': `Bearer ${accessToken}`
-          }
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Failed to load profile data: ${response.statusText}`);
-      }
-
-      const rawData = await response.json();
-      const profileData = rawData.Response;
-      if (!profileData) {
-        throw new Error('Empty response from Destiny API.');
-      }
-
-      const parsedWeapons = [];
-      const socketComponents = profileData.itemComponents?.sockets?.data || {};
-
-      // Helper to process a list of items
-      const processItems = (itemsList, sourceLabel) => {
-        if (!itemsList) return;
-        itemsList.forEach(item => {
-          const localWeapon = weaponsData.find(w => w.hash === item.itemHash);
-          if (localWeapon) {
-            const instanceId = item.itemInstanceId;
-            const activePerks = {};
-            
-            // Resolve active socket plugs
-            if (instanceId && socketComponents[instanceId]) {
-              const sockets = socketComponents[instanceId].sockets || [];
-              sockets.forEach((sSocket, sIdx) => {
-                if (sSocket.plugHash) {
-                  activePerks[sIdx] = sSocket.plugHash;
-                }
-              });
-            } else {
-              // Default perks if instanced data is not loaded
-              localWeapon.sockets.forEach(socket => {
-                activePerks[socket.index] = socket.plugs[0];
-              });
-            }
-
-            // Custom name e.g., "Outlaw + Rampage"
-            // Let's check which socket indices are the active traits
-            // Most legendary weapons have Perk 1 at index 3 and Perk 2 at index 4
-            const perk1Hash = activePerks[3];
-            const perk2Hash = activePerks[4];
-            const perk1Name = perksData[perk1Hash]?.name;
-            const perk2Name = perksData[perk2Hash]?.name;
-            let customRollName = "Custom Roll";
-            if (perk1Name && perk2Name) {
-              customRollName = `${perk1Name} + ${perk2Name}`;
-            } else if (perk1Name) {
-              customRollName = perk1Name;
-            }
-
-            parsedWeapons.push({
-              instanceId: instanceId || item.itemHash.toString() + '_' + Math.random().toString(36).substr(2, 9),
-              hash: item.itemHash,
-              name: localWeapon.name,
-              icon: localWeapon.icon,
-              weaponType: localWeapon.weaponType,
-              damageType: localWeapon.damageType,
-              slot: localWeapon.slot,
-              tier: localWeapon.tier,
-              customRollName,
-              source: sourceLabel,
-              activePerks
-            });
-          }
-        });
-      };
-
-      // Process Vault Items (Component 102)
-      processItems(profileData.profileInventory?.data?.items, 'Vault');
-
-      // Process Character carried items (Component 201)
-      const charInventories = profileData.characterInventories?.data || {};
-      Object.values(charInventories).forEach(inv => {
-        processItems(inv.items, 'Carried');
-      });
-
-      // Process Character equipped items (Component 205)
-      const charEquipment = profileData.characterEquipment?.data || {};
-      Object.values(charEquipment).forEach(eq => {
-        processItems(eq.items, 'Equipped');
-      });
-
-      setVaultWeapons(parsedWeapons);
-    } catch (err) {
-      console.error("Error fetching live vault details", err);
-    } finally {
-      setIsFetchingVault(false);
-    }
-  };
-
-  // 3. OAuth Callback handler exchanging auth code for Access Token
-  const handleOAuthTokenExchange = async (code) => {
-    setAuthStatus('authenticating');
-    setIsFetchingVault(true);
-    try {
-      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      const redirectUri = isLocalhost 
-        ? window.location.origin.replace(/\/$/, '').toLowerCase() 
-        : 'https://vercel.app';
-
-      console.log("Routing OAuth token exchange via Vercel Serverless proxy: /api/token");
-
-      const response = await fetch('/api/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          code: code,
-          redirect_uri: redirectUri
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Token exchange failed: ${response.statusText}`);
-      }
-
-      const tokenData = await response.json();
-      
-      // Save tokens
-      localStorage.setItem('d2_builder_auth', JSON.stringify(tokenData));
-      
-      // Fetch User Membership details (Strict Search for PrazVT#7351)
-      let profileInfo = null;
-      try {
-        const searchResponse = await fetch('https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayerByBungieName/-1/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-Key': BUNGIE_API_KEY
-          },
-          body: JSON.stringify({
-            displayName: 'PrazVT',
-            displayNameCode: 7351
-          })
-        });
-
-        if (searchResponse.ok) {
-          const searchData = await searchResponse.json();
-          const searchResults = searchData.Response || [];
-          if (searchResults.length > 0) {
-            const matchedPlayer = searchResults[0];
-            profileInfo = {
-              displayName: matchedPlayer.bungieGlobalDisplayName || matchedPlayer.displayName,
-              displayNameCode: matchedPlayer.bungieGlobalDisplayNameCode || '7351',
-              membershipType: matchedPlayer.membershipType,
-              membershipId: matchedPlayer.membershipId
-            };
-          }
-        }
-      } catch (searchErr) {
-        console.error("Error searching for PrazVT#7351, trying fallback memberships fetch", searchErr);
-      }
-
-      // Fallback: Query all linked memberships for logged in user if specific search fails
-      if (!profileInfo) {
-        const userResponse = await fetch('https://www.bungie.net/Platform/User/GetMembershipsForCurrentUser/', {
-          headers: {
-            'X-API-Key': BUNGIE_API_KEY,
-            'Authorization': `Bearer ${tokenData.access_token}`
-          }
-        });
-
-        if (!userResponse.ok) {
-          throw new Error(`Failed to fetch user memberships: ${userResponse.statusText}`);
-        }
-
-        const userData = await userResponse.json();
-        const destinyMemberships = userData.Response?.destinyMemberships;
-        if (!destinyMemberships || destinyMemberships.length === 0) {
-          throw new Error('No Destiny 2 accounts found on your Bungie profile.');
-        }
-
-        const primaryMembership = destinyMemberships[0];
-        profileInfo = {
-          displayName: primaryMembership.bungieGlobalDisplayName || primaryMembership.displayName,
-          displayNameCode: primaryMembership.bungieGlobalDisplayNameCode || '',
-          membershipType: primaryMembership.membershipType,
-          membershipId: primaryMembership.membershipId
-        };
-      }
-
-      localStorage.setItem('d2_builder_profile', JSON.stringify(profileInfo));
-      setPlayerProfile(profileInfo);
-      setVaultSource('live');
-      setAuthStatus('authenticated');
-      
-      // Fetch active weapons list from vault
-      await fetchLiveVault(tokenData.access_token, profileInfo);
-      
-      // Clear URL parameter code cleanly
-      if (window.history.replaceState) {
-        const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-        window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
-      }
-      navigate('/', { replace: true });
-    } catch (err) {
-      console.error("Authentication failed", err);
-      setAuthStatus('error');
-      setIsFetchingVault(false);
-    }
-  };
-
-  // 4. Sandbox connection trigger loading simulation vault
-  const handleConnectMockVault = () => {
-    setIsFetchingVault(true);
-    setAuthStatus('authenticated');
-    setVaultSource('sandbox');
-    setPlayerProfile({
-      displayName: 'Cayde-6',
-      displayNameCode: '1777',
-      membershipType: 3,
-      membershipId: 'mock-cayde'
-    });
-    
-    // Simulate slight API fetch loading delay for premium feel
-    setTimeout(() => {
-      setVaultWeapons(MOCK_VAULT_WEAPONS);
-      setIsFetchingVault(false);
-    }, 800);
-  };
-
-  // 5. Connect live vault trigger redirecting to Bungie Portal
-  const handleConnectLiveVault = () => {
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const redirectUri = isLocalhost 
-      ? window.location.origin.replace(/\/$/, '').toLowerCase() 
-      : 'https://vercel.app';
-    const authUrl = `${BUNGIE_OAUTH_URL}?client_id=${BUNGIE_CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`;
-    window.location.href = authUrl;
-  };
-
-  // 6. Logout and session clear helper
-  const handleDisconnectVault = () => {
-    localStorage.removeItem('d2_builder_auth');
-    localStorage.removeItem('d2_builder_profile');
-    setPlayerProfile(null);
-    setVaultWeapons([]);
-    setVaultSource(null);
-    setAuthStatus('idle');
-  };
-
-  // 7. Load personal weapon roll into active builder panel
-  const handleSelectVaultWeapon = (vaultWep) => {
-    const localWep = weaponsData.find(w => w.hash === vaultWep.hash);
-    if (localWep) {
-      const perkHashes = localWep.sockets
-        .map(socket => vaultWep.activePerks[socket.index] || socket.plugs[0])
-        .filter(Boolean);
-      navigate(`/weapon/${vaultWep.hash}?perks=${perkHashes.join(',')}`);
-      setActiveMobileTab('stats');
-    }
-  };
-
-  // Handle URL callback codes and storage verification on mount
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    if (code) {
-      handleOAuthTokenExchange(code);
-    } else {
-      const savedAuth = localStorage.getItem('d2_builder_auth');
-      const savedProfile = localStorage.getItem('d2_builder_profile');
-      if (savedAuth && savedProfile) {
-        try {
-          const auth = JSON.parse(savedAuth);
-          const profile = JSON.parse(savedProfile);
-          setPlayerProfile(profile);
-          setVaultSource('live');
-          setAuthStatus('authenticated');
-          fetchLiveVault(auth.access_token, profile);
-        } catch (e) {
-          console.error("Failed to parse saved auth details", e);
-          localStorage.removeItem('d2_builder_auth');
-          localStorage.removeItem('d2_builder_profile');
-        }
-      }
-    }
-  }, [searchParams]);
 
   // Default popular featured weapon when none selected: Midnight Coup (36289970) or Luna's Howl, etc.
   const activeWeapon = useMemo(() => {
@@ -1158,32 +773,6 @@ export default function App() {
         </div>
 
         <div className="flex items-center gap-3">
-          {playerProfile && (
-            <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-white/5 border border-glass">
-              <div className="w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
-                <User className="w-3.5 h-3.5 text-indigo-400" />
-              </div>
-              <div className="text-left hidden sm:block">
-                <div className="text-xs font-bold text-slate-200 leading-tight">
-                  {playerProfile.displayName}
-                  {playerProfile.displayNameCode && (
-                    <span className="text-[9px] text-slate-500 font-medium ml-0.5">#{playerProfile.displayNameCode}</span>
-                  )}
-                </div>
-                <div className="text-[9px] text-slate-500 font-bold uppercase tracking-wider leading-none">
-                  {vaultSource === 'sandbox' ? 'Sandbox Mode' : 'Destiny Vault'}
-                </div>
-              </div>
-              <button 
-                onClick={handleDisconnectVault}
-                title="Disconnect Vault"
-                className="p-1 hover:bg-white/10 rounded text-slate-400 hover:text-rose-400 transition-colors ml-1.5"
-              >
-                <LogOut className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          )}
-
           {activeWeapon && (
             <button 
               onClick={handleCopyRollLink}
@@ -1234,444 +823,253 @@ export default function App() {
         {/* COLUMN 1: WEAPON SEARCH SIDEBAR                          */}
         {/* ======================================================== */}
         <aside className={`w-full md:w-[350px] flex-shrink-0 flex flex-col border-r border-glass bg-space-panel/50 backdrop-blur-lg ${activeMobileTab === 'finder' ? 'flex' : 'hidden md:flex'}`}>
-          {/* Top Login Panel */}
-          <div className="p-4 border-b border-glass bg-space-dark/60 flex-shrink-0">
-            {!playerProfile ? (
-              <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3.5 shadow-[0_0_15px_rgba(245,158,11,0.1)] transition-all hover:border-amber-500/50">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 rounded-full bg-slate-500 animate-pulse" />
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Offline Sandbox</span>
-                </div>
-                <h4 className="text-xs font-bold text-slate-200 mb-1.5 font-display">
-                  Live Destiny 2 Vault Integration
-                </h4>
-                <p className="text-[10px] text-slate-400 leading-relaxed mb-3">
-                  Connect your Bungie account to instantly swap sandbox weapons out for your real personal vault rolls.
-                </p>
-                <div className="flex flex-col gap-2">
-                  <button
-                    onClick={handleConnectLiveVault}
-                    className="w-full py-2 px-3 text-xs font-bold text-space-dark bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 active:scale-98 rounded-md shadow-[0_0_12px_rgba(245,158,11,0.25)] flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer"
-                  >
-                    <Archive className="w-3.5 h-3.5" />
-                    <span>Log In with Bungie</span>
-                  </button>
-                  <button
-                    onClick={handleConnectMockVault}
-                    className="w-full py-1.5 text-[10px] font-bold text-slate-400 hover:text-slate-200 transition-colors uppercase tracking-wider text-center"
-                  >
-                    Or Load Demo Sandbox Data
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3.5 shadow-[0_0_15px_rgba(16,185,129,0.1)] transition-all hover:border-emerald-500/50">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Vault Connected</span>
-                  </div>
-                  <button 
-                    onClick={handleDisconnectVault}
-                    className="text-[9px] font-bold text-rose-400 hover:text-rose-300 transition-colors uppercase tracking-wider cursor-pointer"
-                  >
-                    Disconnect
-                  </button>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                    <User className="w-4 h-4 text-emerald-400" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-slate-200">
-                      {playerProfile.displayName}
-                      {playerProfile.displayNameCode && (
-                        <span className="text-[10px] text-slate-500 font-medium ml-0.5">#{playerProfile.displayNameCode}</span>
-                      )}
-                    </div>
-                    <div className="text-[9px] text-slate-500 font-bold uppercase tracking-wider leading-none mt-0.5">
-                      {vaultSource === 'sandbox' ? "Cayde's Cache" : "Live Inventory"}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Sidebar Tab Switcher */}
-          <div className="flex border-b border-glass bg-space-dark/40 flex-shrink-0">
-            <button
-              onClick={() => setSidebarTab('database')}
-              className={`flex-1 py-3 text-xs font-semibold uppercase tracking-wider text-center border-b-2 flex items-center justify-center gap-2 transition-all duration-200 ${sidebarTab === 'database' ? 'border-purple-500 text-purple-400 bg-white/2' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
-            >
-              <Compass className="w-3.5 h-3.5" />
-              <span>Database</span>
-            </button>
-            <button
-              onClick={() => setSidebarTab('vault')}
-              className={`flex-1 py-3 text-xs font-semibold uppercase tracking-wider text-center border-b-2 flex items-center justify-center gap-2 transition-all duration-200 ${sidebarTab === 'vault' ? 'border-purple-500 text-purple-400 bg-white/2' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
-            >
-              <Archive className="w-3.5 h-3.5" />
-              <span>My Vault</span>
-            </button>
-          </div>
-
-          {sidebarTab === 'database' ? (
-            <div className="flex flex-col flex-1 overflow-hidden">
-              {/* Fuzzy Input */}
-              <div className="p-4 border-b border-glass flex-shrink-0">
-                <div className="relative">
-                  <Search className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
-                  <input
-                    type="text"
-                    placeholder="Search weapons or frames..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 text-sm rounded-lg border border-glass bg-space-dark/50 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 text-slate-100 placeholder-slate-500 transition"
-                  />
-                  {searchTerm && (
-                    <button onClick={() => setSearchTerm('')} className="absolute right-3 top-3.5 text-slate-500 hover:text-slate-200">
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  )}
-                </div>
-
-                {/* Filter Reset */}
-                {(searchTerm || activeAmmo || activeSlot || activeElement || activeWeaponType !== 'All' || activeRarity !== 'All' || activeFrame !== 'All') && (
-                  <button 
-                    onClick={handleResetFilters}
-                    className="mt-3 text-[11px] font-semibold text-purple-400 hover:text-purple-300 hover:underline uppercase tracking-wide"
-                  >
-                    Clear Active Filters
+          <div className="flex flex-col flex-1 overflow-hidden">
+            {/* Fuzzy Input */}
+            <div className="p-4 border-b border-glass flex-shrink-0">
+              <div className="relative">
+                <Search className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+                <input
+                  type="text"
+                  placeholder="Search weapons or frames..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 text-sm rounded-lg border border-glass bg-space-dark/50 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 text-slate-100 placeholder-slate-500 transition"
+                />
+                {searchTerm && (
+                  <button onClick={() => setSearchTerm('')} className="absolute right-3 top-3.5 text-slate-500 hover:text-slate-200">
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
 
-              {/* Expanded Filter Grids Scroll block */}
-              <div className="p-4 flex-1 overflow-y-auto space-y-4">
-                
-                {/* 1. Weapon Type Dropdown */}
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
-                    Weapon Class
-                  </label>
-                  <select
-                    value={activeWeaponType}
-                    onChange={(e) => setActiveWeaponType(e.target.value)}
-                    className="w-full bg-space-dark/70 border border-glass rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-purple-500/50 text-slate-300"
-                  >
-                    {allWeaponTypes.map(type => (
-                      <option key={type} value={type}>{type}</option>
-                    ))}
-                  </select>
-                </div>
+              {/* Filter Reset */}
+              {(searchTerm || activeAmmo || activeSlot || activeElement || activeWeaponType !== 'All' || activeRarity !== 'All' || activeFrame !== 'All') && (
+                <button 
+                  onClick={handleResetFilters}
+                  className="mt-3 text-[11px] font-semibold text-purple-400 hover:text-purple-300 hover:underline uppercase tracking-wide"
+                >
+                  Clear Active Filters
+                </button>
+              )}
+            </div>
 
-                {/* 1b. Weapon Frame Dropdown (Conditional) */}
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
-                    Weapon Frame
-                  </label>
-                  <select
-                    value={activeFrame}
-                    onChange={(e) => setActiveFrame(e.target.value)}
-                    disabled={activeWeaponType === 'All'}
-                    className={`w-full bg-space-dark/70 border border-glass rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-purple-500/50 text-slate-300 transition-all duration-200 ${activeWeaponType === 'All' ? 'opacity-40 cursor-not-allowed bg-slate-900/30' : 'hover:border-purple-500/30'}`}
-                  >
-                    {activeWeaponType === 'All' ? (
-                      <option value="All">Select a weapon class first</option>
-                    ) : (
-                      availableFrames.map(frame => (
-                        <option key={frame} value={frame}>{frame}</option>
-                      ))
-                    )}
-                  </select>
-                  {activeWeaponType === 'All' && (
-                    <p className="text-[9px] text-purple-400/80 font-medium mt-1 uppercase tracking-wider">
-                      * Select a weapon class above to filter by frame.
-                    </p>
+            {/* Expanded Filter Grids Scroll block */}
+            <div className="p-4 flex-1 overflow-y-auto space-y-4">
+              
+              {/* 1. Weapon Type Dropdown */}
+              <div>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+                  Weapon Class
+                </label>
+                <select
+                  value={activeWeaponType}
+                  onChange={(e) => setActiveWeaponType(e.target.value)}
+                  className="w-full bg-space-dark/70 border border-glass rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-purple-500/50 text-slate-300"
+                >
+                  {allWeaponTypes.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* 1b. Weapon Frame Dropdown (Conditional) */}
+              <div>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+                  Weapon Frame
+                </label>
+                <select
+                  value={activeFrame}
+                  onChange={(e) => setActiveFrame(e.target.value)}
+                  disabled={activeWeaponType === 'All'}
+                  className={`w-full bg-space-dark/70 border border-glass rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-purple-500/50 text-slate-300 transition-all duration-200 ${activeWeaponType === 'All' ? 'opacity-40 cursor-not-allowed bg-slate-900/30' : 'hover:border-purple-500/30'}`}
+                >
+                  {activeWeaponType === 'All' ? (
+                    <option value="All">Select a weapon class first</option>
+                  ) : (
+                    availableFrames.map(frame => (
+                      <option key={frame} value={frame}>{frame}</option>
+                    ))
                   )}
+                </select>
+                {activeWeaponType === 'All' && (
+                  <p className="text-[9px] text-purple-400/80 font-medium mt-1 uppercase tracking-wider">
+                    * Select a weapon class above to filter by frame.
+                  </p>
+                )}
+              </div>
+
+              {/* 1c. Rarity Dropdown */}
+              <div>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+                  Rarity
+                </label>
+                <select
+                  value={activeRarity}
+                  onChange={(e) => setActiveRarity(e.target.value)}
+                  className="w-full bg-space-dark/70 border border-glass rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-purple-500/50 text-slate-300 hover:border-purple-500/30 transition-colors"
+                >
+                  <option value="All">All</option>
+                  <option value="Common">Common</option>
+                  <option value="Uncommon">Uncommon</option>
+                  <option value="Rare">Rare</option>
+                  <option value="Legendary">Legendary</option>
+                  <option value="Exotic">Exotic</option>
+                </select>
+              </div>
+
+              {/* 2. Ammo Types pills */}
+              <div>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+                  Ammo Capacity
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {['Primary', 'Special', 'Heavy'].map(ammo => (
+                    <button
+                      key={ammo}
+                      onClick={() => setActiveAmmo(activeAmmo === ammo ? null : ammo)}
+                      className={`py-1.5 text-xs font-semibold rounded-md border transition uppercase tracking-wide ${activeAmmo === ammo ? 'bg-purple-600/30 border-purple-500 text-purple-200 glow-void' : 'bg-space-dark/30 border-glass text-slate-400 hover:border-white/10 hover:text-slate-200'}`}
+                    >
+                      {ammo}
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                {/* 1c. Rarity Dropdown */}
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
-                    Rarity
-                  </label>
-                  <select
-                    value={activeRarity}
-                    onChange={(e) => setActiveRarity(e.target.value)}
-                    className="w-full bg-space-dark/70 border border-glass rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-purple-500/50 text-slate-300 hover:border-purple-500/30 transition-colors"
-                  >
-                    <option value="All">All</option>
-                    <option value="Common">Common</option>
-                    <option value="Uncommon">Uncommon</option>
-                    <option value="Rare">Rare</option>
-                    <option value="Legendary">Legendary</option>
-                    <option value="Exotic">Exotic</option>
-                  </select>
+              {/* 3. Slot Filters pills */}
+              <div>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+                  Weapon Slot
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {['Kinetic', 'Energy', 'Power'].map(slot => (
+                    <button
+                      key={slot}
+                      onClick={() => setActiveSlot(activeSlot === slot ? null : slot)}
+                      className={`py-1.5 text-xs font-semibold rounded-md border transition uppercase tracking-wide ${activeSlot === slot ? 'bg-purple-600/30 border-purple-500 text-purple-200 glow-void' : 'bg-space-dark/30 border-glass text-slate-400 hover:border-white/10 hover:text-slate-200'}`}
+                    >
+                      {slot}
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                {/* 2. Ammo Types pills */}
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
-                    Ammo Capacity
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {['Primary', 'Special', 'Heavy'].map(ammo => (
-                      <button
-                        key={ammo}
-                        onClick={() => setActiveAmmo(activeAmmo === ammo ? null : ammo)}
-                        className={`py-1.5 text-xs font-semibold rounded-md border transition uppercase tracking-wide ${activeAmmo === ammo ? 'bg-purple-600/30 border-purple-500 text-purple-200 glow-void' : 'bg-space-dark/30 border-glass text-slate-400 hover:border-white/10 hover:text-slate-200'}`}
-                      >
-                        {ammo}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 3. Slot Filters pills */}
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
-                    Weapon Slot
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {['Kinetic', 'Energy', 'Power'].map(slot => (
-                      <button
-                        key={slot}
-                        onClick={() => setActiveSlot(activeSlot === slot ? null : slot)}
-                        className={`py-1.5 text-xs font-semibold rounded-md border transition uppercase tracking-wide ${activeSlot === slot ? 'bg-purple-600/30 border-purple-500 text-purple-200 glow-void' : 'bg-space-dark/30 border-glass text-slate-400 hover:border-white/10 hover:text-slate-200'}`}
-                      >
-                        {slot}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 4. Element Filters grid */}
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
-                    Elemental Burn
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {Object.keys(DAMAGE_TYPES).map(id => {
-                      const name = DAMAGE_TYPES[id];
-                      const elementColors = {
-                        Solar: 'hover:border-solar hover:text-solar border-solar/20 bg-solar/5 text-solar/80 glow-solar',
-                        Arc: 'hover:border-arc hover:text-arc border-arc/20 bg-arc/5 text-arc/80 glow-arc',
-                        Void: 'hover:border-void hover:text-void border-void/20 bg-void/5 text-void/80 glow-void',
-                        Stasis: 'hover:border-stasis hover:text-stasis border-stasis/20 bg-stasis/5 text-stasis/80 glow-stasis',
-                        Strand: 'hover:border-strand hover:text-strand border-strand/20 bg-strand/5 text-strand/80 glow-strand',
-                        Kinetic: 'hover:border-kinetic hover:text-kinetic border-kinetic/20 bg-kinetic/5 text-kinetic/80 glow-kinetic'
-                      };
-
-                      const isSelected = activeElement === name;
-
-                      return (
-                        <button
-                          key={name}
-                          onClick={() => setActiveElement(activeElement === name ? null : name)}
-                          className={`py-1.5 text-xs font-semibold rounded-md border transition uppercase tracking-wide ${isSelected ? elementColors[name] : 'bg-space-dark/30 border-glass text-slate-400 hover:border-white/15 hover:text-slate-200'}`}
-                        >
-                          {name}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Search list count */}
-                <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wide pt-2 border-t border-glass">
-                  Results found: {filteredWeapons.length}
-                </div>
-
-                {/* Scrollable list items */}
-                <div className="space-y-2 pt-2">
-                  {filteredWeapons.map(weapon => {
-                    const isSelected = activeWeapon?.hash === weapon.hash;
-                    
-                    // Element color badge
-                    const elementBorderColors = {
-                      Solar: 'border-l-solar/80',
-                      Arc: 'border-l-arc/80',
-                      Void: 'border-l-void/80',
-                      Stasis: 'border-l-stasis/80',
-                      Strand: 'border-l-strand/80',
-                      Kinetic: 'border-l-kinetic/40'
+              {/* 4. Element Filters grid */}
+              <div>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+                  Elemental Burn
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {Object.keys(DAMAGE_TYPES).map(id => {
+                    const name = DAMAGE_TYPES[id];
+                    const elementColors = {
+                      Solar: 'hover:border-solar hover:text-solar border-solar/20 bg-solar/5 text-solar/80 glow-solar',
+                      Arc: 'hover:border-arc hover:text-arc border-arc/20 bg-arc/5 text-arc/80 glow-arc',
+                      Void: 'hover:border-void hover:text-void border-void/20 bg-void/5 text-void/80 glow-void',
+                      Stasis: 'hover:border-stasis hover:text-stasis border-stasis/20 bg-stasis/5 text-stasis/80 glow-stasis',
+                      Strand: 'hover:border-strand hover:text-strand border-strand/20 bg-strand/5 text-strand/80 glow-strand',
+                      Kinetic: 'hover:border-kinetic hover:text-kinetic border-kinetic/20 bg-kinetic/5 text-kinetic/80 glow-kinetic'
                     };
 
-                    const rarityOutlineColors = {
-                      Legendary: 'hover:border-purple-600/30',
-                      Exotic: 'hover:border-amber-500/30',
-                      Rare: 'hover:border-blue-500/30'
-                    };
+                    const isSelected = activeElement === name;
 
                     return (
                       <button
-                        key={weapon.hash}
-                        onClick={() => {
-                          navigate(`/weapon/${weapon.hash}`);
-                          setActiveMobileTab('stats'); // dynamic focus shift for mobile
-                        }}
-                        className={`w-full flex items-center justify-between p-2.5 rounded-lg border text-left glass-panel transition-all duration-200 ${elementBorderColors[weapon.damageType]} border-l-4 ${isSelected ? 'border-glass bg-white/5 shadow-md ring-1 ring-white/10' : `bg-space-dark/20 border-glass ${rarityOutlineColors[weapon.tier] || 'hover:border-glass-border-hover'}`}`}
+                        key={name}
+                        onClick={() => setActiveElement(activeElement === name ? null : name)}
+                        className={`py-1.5 text-xs font-semibold rounded-md border transition uppercase tracking-wide ${isSelected ? elementColors[name] : 'bg-space-dark/30 border-glass text-slate-400 hover:border-white/15 hover:text-slate-200'}`}
                       >
-                        <div className="flex items-center gap-3">
-                          {weapon.icon ? (
-                            <img 
-                              src={weapon.icon} 
-                              alt="" 
-                              className="w-10 h-10 rounded border border-glass bg-space-dark/60"
-                            />
-                          ) : (
-                            <div className="w-10 h-10 bg-slate-800 rounded border border-glass flex items-center justify-center text-slate-600 text-xs">
-                              W
-                            </div>
-                          )}
-                          <div>
-                            <div className="font-semibold text-xs text-slate-200 flex items-center gap-1.5 truncate max-w-[170px]">
-                              <span className="truncate">{weapon.name}</span>
-                              {getWeaponVersionLabel(weapon) && (
-                                <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/30 uppercase tracking-wide leading-none shrink-0 scale-90">
-                                  {getWeaponVersionLabel(weapon)}
-                                </span>
-                              )}
-                            </div>
-                            <div className="text-[10px] text-slate-400 font-medium">
-                              {weapon.frame}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col items-end gap-1.5">
-                          <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">
-                            {weapon.weaponType}
-                          </span>
-                          <span className="text-[9px] font-medium text-slate-500">
-                            {weapon.damageType}
-                          </span>
-                        </div>
+                        {name}
                       </button>
                     );
                   })}
-
-                  {filteredWeapons.length === 0 && (
-                    <div className="py-12 text-center text-slate-500 space-y-2">
-                      <ShieldAlert className="w-8 h-8 mx-auto stroke-1" />
-                      <p className="text-xs font-semibold uppercase tracking-wider">No weapons found</p>
-                      <p className="text-[11px] text-slate-600">Try modifying your filter parameters</p>
-                    </div>
-                  )}
                 </div>
-
               </div>
-            </div>
-          ) : (
-            <div className="flex flex-col flex-1 overflow-hidden">
-              {!playerProfile ? (
-                <div className="p-6 flex-1 flex flex-col justify-center text-center space-y-4">
-                  <div className="w-12 h-12 mx-auto rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.1)]">
-                    <Archive className="w-6 h-6 text-amber-400 animate-pulse" />
-                  </div>
-                  <div className="space-y-1">
-                    <h4 className="font-display font-bold text-sm text-slate-200 uppercase tracking-wider">
-                      Vault Sync Required
-                    </h4>
-                    <p className="text-[11px] text-slate-400 leading-relaxed max-w-[240px] mx-auto">
-                      Please use the <span className="text-amber-400 font-bold">Log In with Bungie</span> panel at the top of the sidebar to authorize access to your in-game vault weapons.
-                    </p>
-                  </div>
-                </div>
-              ) : isFetchingVault ? (
-                <div className="flex-1 flex flex-col items-center justify-center py-20 space-y-3">
-                  <RefreshCw className="w-8 h-8 text-purple-400 animate-spin" />
-                  <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider animate-pulse">Syncing Inventory...</p>
-                </div>
-              ) : (
-                <div className="flex flex-col flex-1 overflow-hidden">
-                  <div className="p-4 border-b border-glass flex-shrink-0">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
-                      <input
-                        type="text"
-                        placeholder="Search vault rolls..."
-                        value={vaultSearchTerm}
-                        onChange={(e) => setVaultSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2.5 text-sm rounded-lg border border-glass bg-space-dark/50 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 text-slate-100 placeholder-slate-500 transition"
-                      />
-                      {vaultSearchTerm && (
-                        <button onClick={() => setVaultSearchTerm('')} className="absolute right-3 top-3.5 text-slate-500 hover:text-slate-200">
-                          <X className="w-3.5 h-3.5" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
 
-                  <div className="p-4 flex-1 overflow-y-auto space-y-2">
-                    {filteredVaultWeapons.map(vaultWep => {
-                      const isSelected = activeWeapon?.hash === vaultWep.hash;
-                      
-                      const sourceBadgeColors = {
-                        Vault: 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20',
-                        Equipped: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
-                        Carried: 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                      };
+              {/* Search list count */}
+              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wide pt-2 border-t border-glass">
+                Results found: {filteredWeapons.length}
+              </div>
 
-                      return (
-                        <button
-                          key={vaultWep.instanceId}
-                          onClick={() => handleSelectVaultWeapon(vaultWep)}
-                          className={`w-full flex items-center justify-between p-3 rounded-lg border text-left glass-panel transition-all duration-200 hover:scale-[1.01] ${isSelected ? 'border-amber-500/50 bg-white/5 shadow-[0_0_15px_rgba(245,158,11,0.15)] ring-1 ring-amber-500/20' : 'bg-space-dark/20 border-glass hover:border-white/10'}`}
-                        >
-                          <div className="flex items-center gap-3">
-                            {vaultWep.icon ? (
-                              <img 
-                                src={vaultWep.icon} 
-                                alt="" 
-                                className="w-10 h-10 rounded border border-glass bg-space-dark/60"
-                              />
-                            ) : (
-                              <div className="w-10 h-10 bg-slate-800 rounded border border-glass flex items-center justify-center text-slate-600 text-xs">
-                                W
-                              </div>
+              {/* Scrollable list items */}
+              <div className="space-y-2 pt-2">
+                {filteredWeapons.map(weapon => {
+                  const isSelected = activeWeapon?.hash === weapon.hash;
+                  
+                  // Element color badge
+                  const elementBorderColors = {
+                    Solar: 'border-l-solar/80',
+                    Arc: 'border-l-arc/80',
+                    Void: 'border-l-void/80',
+                    Stasis: 'border-l-stasis/80',
+                    Strand: 'border-l-strand/80',
+                    Kinetic: 'border-l-kinetic/40'
+                  };
+
+                  const rarityOutlineColors = {
+                    Legendary: 'hover:border-purple-600/30',
+                    Exotic: 'hover:border-amber-500/30',
+                    Rare: 'hover:border-blue-500/30'
+                  };
+
+                  return (
+                    <button
+                      key={weapon.hash}
+                      onClick={() => {
+                        navigate(`/weapon/${weapon.hash}`);
+                        setActiveMobileTab('stats'); // dynamic focus shift for mobile
+                      }}
+                      className={`w-full flex items-center justify-between p-2.5 rounded-lg border text-left glass-panel transition-all duration-200 ${elementBorderColors[weapon.damageType]} border-l-4 ${isSelected ? 'border-glass bg-white/5 shadow-md ring-1 ring-white/10' : `bg-space-dark/20 border-glass ${rarityOutlineColors[weapon.tier] || 'hover:border-glass-border-hover'}`}`}
+                    >
+                      <div className="flex items-center gap-3">
+                        {weapon.icon ? (
+                          <img 
+                            src={weapon.icon} 
+                            alt="" 
+                            className="w-10 h-10 rounded border border-glass bg-space-dark/60"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 bg-slate-800 rounded border border-glass flex items-center justify-center text-slate-600 text-xs">
+                            W
+                          </div>
+                        )}
+                        <div>
+                          <div className="font-semibold text-xs text-slate-200 flex items-center gap-1.5 truncate max-w-[170px]">
+                            <span className="truncate">{weapon.name}</span>
+                            {getWeaponVersionLabel(weapon) && (
+                              <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/30 uppercase tracking-wide leading-none shrink-0 scale-90">
+                                {getWeaponVersionLabel(weapon)}
+                              </span>
                             )}
-                            <div>
-                              <div className="font-semibold text-xs text-slate-200 flex items-center gap-1.5 truncate max-w-[150px]">
-                                <span className="truncate">{vaultWep.name}</span>
-                                {getWeaponVersionLabel(vaultWep) && (
-                                  <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/30 uppercase tracking-wide leading-none shrink-0 scale-90">
-                                    {getWeaponVersionLabel(vaultWep)}
-                                  </span>
-                                )}
-                              </div>
-                              <div className="text-[10px] font-bold text-amber-400/90 tracking-wide mt-0.5">
-                                {vaultWep.customRollName}
-                              </div>
-                            </div>
                           </div>
-
-                          <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
-                            <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider ${sourceBadgeColors[vaultWep.source] || 'bg-slate-800 text-slate-400 border border-slate-700'}`}>
-                              {vaultWep.source}
-                            </span>
-                            <span className="text-[9px] font-medium text-slate-500 uppercase">
-                              {vaultWep.weaponType}
-                            </span>
+                          <div className="text-[10px] text-slate-400 font-medium">
+                            {weapon.frame}
                           </div>
-                        </button>
-                      );
-                    })}
-
-                    {filteredVaultWeapons.length === 0 && (
-                      <div className="py-12 text-center text-slate-500 space-y-2">
-                        <ShieldAlert className="w-8 h-8 mx-auto stroke-1" />
-                        <p className="text-xs font-semibold uppercase tracking-wider">No rolls found</p>
-                        <p className="text-[11px] text-slate-600">Try modifying your search term</p>
+                        </div>
                       </div>
-                    )}
+
+                      <div className="flex flex-col items-end gap-1.5">
+                        <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">
+                          {weapon.weaponType}
+                        </span>
+                        <span className="text-[9px] font-medium text-slate-500">
+                          {weapon.damageType}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+
+                {filteredWeapons.length === 0 && (
+                  <div className="py-12 text-center text-slate-500 space-y-2">
+                    <ShieldAlert className="w-8 h-8 mx-auto stroke-1" />
+                    <p className="text-xs font-semibold uppercase tracking-wider">No weapons found</p>
+                    <p className="text-[11px] text-slate-600">Try modifying your filter parameters</p>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
+
             </div>
-          )}
+          </div>
         </aside>
 
         {/* ======================================================== */}
