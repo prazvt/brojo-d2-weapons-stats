@@ -1,5 +1,47 @@
 [
   {
+    "id": "cqc_optics__high",
+    "hash": 52638289,
+    "name": "CQC Optics: High",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/3cb712d78a8605aaf98a3d3336267e4e.png",
+    "category": "Shaped",
+    "investmentStats": [
+      {
+        "statHash": 3555269338,
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "enhanced_impact",
+    "hash": 81592656,
+    "name": "Enhanced Impact",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/bd01de4766978e8c92dc6c428142ac33.png",
+    "category": "Enhanced",
+    "investmentStats": [
+      {
+        "statHash": 4043523819,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "adept_accuracy",
+    "hash": 117884138,
+    "name": "Adept Accuracy",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/d1a6e37938406379c794954ecb2381a4.png",
+    "category": "Adept",
+    "investmentStats": [
+      {
+        "statHash": 1591432999,
+        "value": 10
+      }
+    ]
+  },
+  {
     "id": "quick_access_sling",
     "hash": 139132552,
     "name": "Quick Access Sling",
@@ -18,6 +60,20 @@
     "investmentStats": [
       {
         "statHash": 3444329767,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "enhanced_range",
+    "hash": 260490301,
+    "name": "Enhanced Range",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/136b3d98df36ffa41774b7211f623b3b.png",
+    "category": "Enhanced",
+    "investmentStats": [
+      {
+        "statHash": 1240592695,
         "value": 10
       }
     ]
@@ -51,6 +107,20 @@
     ]
   },
   {
+    "id": "abundant_ammo",
+    "hash": 325500297,
+    "name": "Abundant Ammo",
+    "description": "Grants slightly increased ammo generation.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/26614af76b46d7a5f178eeaeedc79c36.png",
+    "category": "Shaped",
+    "investmentStats": [
+      {
+        "statHash": 1931675084,
+        "value": 12
+      }
+    ]
+  },
+  {
     "id": "radar_tuner",
     "hash": 371216963,
     "name": "Radar Tuner",
@@ -58,6 +128,24 @@
     "icon": "https://www.bungie.net/common/destiny2_content/icons/9760ffcf788d95ba21c2faec7b60566d.png",
     "category": "Standard",
     "investmentStats": []
+  },
+  {
+    "id": "ballistics",
+    "hash": 414077027,
+    "name": "Ballistics",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/f5b86c510e6bcfd0f75dff656340b557.png",
+    "category": "Shaped",
+    "investmentStats": [
+      {
+        "statHash": 1240592695,
+        "value": 7
+      },
+      {
+        "statHash": 155624089,
+        "value": 7
+      }
+    ]
   },
   {
     "id": "sprint_grip",
@@ -69,12 +157,48 @@
     "investmentStats": []
   },
   {
+    "id": "flight",
+    "hash": 624097433,
+    "name": "Flight",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/85020788130418201bea35577dcb2a7c.png",
+    "category": "Shaped",
+    "investmentStats": [
+      {
+        "statHash": 2523465841,
+        "value": 6
+      },
+      {
+        "statHash": 3085395333,
+        "value": 6
+      },
+      {
+        "statHash": 1240592695,
+        "value": 6
+      }
+    ]
+  },
+  {
     "id": "adept_reload",
     "hash": 634781242,
     "name": "Adept Reload",
     "description": "",
     "icon": "https://www.bungie.net/common/destiny2_content/icons/97511de431ec6485e230b7dd08f18fd3.png",
     "category": "Adept",
+    "investmentStats": [
+      {
+        "statHash": 4188031367,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "enhanced_reload",
+    "hash": 711469637,
+    "name": "Enhanced Reload",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/63dc63bf2f473ca0a197738147404d7a.png",
+    "category": "Enhanced",
     "investmentStats": [
       {
         "statHash": 4188031367,
@@ -120,6 +244,33 @@
     ]
   },
   {
+    "id": "anti_flinch",
+    "hash": 967505927,
+    "name": "Anti-Flinch",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/5bf9196ccb47b2d9548fd7f2b7675c89.png",
+    "category": "Shaped",
+    "investmentStats": []
+  },
+  {
+    "id": "tactical",
+    "hash": 974161790,
+    "name": "Tactical",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/b8f6e3e41a381e4b27f2d50d6f3a9de0.png",
+    "category": "Shaped",
+    "investmentStats": [
+      {
+        "statHash": 4188031367,
+        "value": 7
+      },
+      {
+        "statHash": 943549884,
+        "value": 7
+      }
+    ]
+  },
+  {
     "id": "major_spec",
     "hash": 984527513,
     "name": "Major Spec",
@@ -127,6 +278,128 @@
     "icon": "https://www.bungie.net/common/destiny2_content/icons/555a21bfaf5dabe17042737d720dcd90.png",
     "category": "Standard",
     "investmentStats": []
+  },
+  {
+    "id": "adept_mag",
+    "hash": 1225726778,
+    "name": "Adept Mag",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/8138ef763b4c59b2797a46fd9e2cd2c5.png",
+    "category": "Adept",
+    "investmentStats": [
+      {
+        "statHash": 3871231066,
+        "value": 40
+      },
+      {
+        "statHash": 925767036,
+        "value": 40
+      }
+    ]
+  },
+  {
+    "id": "enhanced_blast_radius",
+    "hash": 1252257233,
+    "name": "Enhanced Blast Radius",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/7491efe7090564c64cbf0558a86a4388.png",
+    "category": "Enhanced",
+    "investmentStats": [
+      {
+        "statHash": 3614673599,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "opening_salvo",
+    "hash": 1254077559,
+    "name": "Opening Salvo",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/611acb82ebe581e405e7e599ced066ca.png",
+    "category": "Shaped",
+    "investmentStats": []
+  },
+  {
+    "id": "jumpshot",
+    "hash": 1285109625,
+    "name": "Jumpshot",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/8fbe7000d9f7ba4ef6027af558288fe1.png",
+    "category": "Shaped",
+    "investmentStats": []
+  },
+  {
+    "id": "tungsten_bowstring",
+    "hash": 1285109626,
+    "name": "Tungsten Bowstring",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/197542bcc488b172132859c97f26d0d1.png",
+    "category": "Shaped",
+    "investmentStats": []
+  },
+  {
+    "id": "shattershafts",
+    "hash": 1285109627,
+    "name": "Shattershafts",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/91012b478a3c34641d7cadae6ab29c65.png",
+    "category": "Shaped",
+    "investmentStats": []
+  },
+  {
+    "id": "adept_shield_duration",
+    "hash": 1342449029,
+    "name": "Adept Shield Duration",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/f10df7c268f7051589c89b34ccf95122.png",
+    "category": "Adept",
+    "investmentStats": [
+      {
+        "statHash": 1842278586,
+        "value": 10
+      },
+      {
+        "statHash": 2961396640,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "bandolier",
+    "hash": 1350538053,
+    "name": "Bandolier",
+    "description": "Grants slightly increased ammo generation and magazine size.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/1ed77f58367a23694141b29f760940b5.png",
+    "category": "Shaped",
+    "investmentStats": [
+      {
+        "statHash": 1931675084,
+        "value": 7
+      },
+      {
+        "statHash": 3871231066,
+        "value": 20
+      },
+      {
+        "statHash": 925767036,
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "enhanced_vent_speed",
+    "hash": 1455043575,
+    "name": "Enhanced Vent Speed",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/63dc63bf2f473ca0a197738147404d7a.png",
+    "category": "Enhanced",
+    "investmentStats": [
+      {
+        "statHash": 4188031367,
+        "value": 10
+      }
+    ]
   },
   {
     "id": "taken_spec",
@@ -174,12 +447,158 @@
     ]
   },
   {
+    "id": "tension",
+    "hash": 1592913511,
+    "name": "Tension",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/3a90b0a263a5805b7415599447e89359.png",
+    "category": "Shaped",
+    "investmentStats": [
+      {
+        "statHash": 447667954,
+        "value": 7
+      },
+      {
+        "statHash": 2961396640,
+        "value": 7
+      },
+      {
+        "statHash": 1591432999,
+        "value": 7
+      }
+    ]
+  },
+  {
+    "id": "sweaty_confetti",
+    "hash": 1643912408,
+    "name": "Sweaty Confetti",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/4d285357e8a67d9ba1a6c49e4ff7d8b8.png",
+    "category": "Standard",
+    "investmentStats": []
+  },
+  {
+    "id": "enhanced_projectile_speed",
+    "hash": 1653281839,
+    "name": "Enhanced Projectile Speed",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/011e9fb011d9017902e135929a0504cb.png",
+    "category": "Enhanced",
+    "investmentStats": [
+      {
+        "statHash": 2523465841,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "adept_targeting",
+    "hash": 1710791394,
+    "name": "Adept Targeting",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/a9b660fc5d62ea59791dc98d5b8fe140.png",
+    "category": "Adept",
+    "investmentStats": [
+      {
+        "statHash": 1345609583,
+        "value": 7
+      }
+    ]
+  },
+  {
+    "id": "marksman_optics__high",
+    "hash": 1847129788,
+    "name": "Marksman Optics: High",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/2529e9ce321d480659e5d294c12a98c1.png",
+    "category": "Shaped",
+    "investmentStats": [
+      {
+        "statHash": 3555269338,
+        "value": 2
+      }
+    ]
+  },
+  {
     "id": "adept_draw_time",
     "hash": 1885045197,
     "name": "Adept Draw Time",
     "description": "",
     "icon": "https://www.bungie.net/common/destiny2_content/icons/e13a0c8c5bcfc488dd6c5424039cd021.png",
     "category": "Adept",
+    "investmentStats": [
+      {
+        "statHash": 2961396640,
+        "value": 10
+      },
+      {
+        "statHash": 447667954,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "stunloader",
+    "hash": 1893041875,
+    "name": "Stunloader",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/f305d1a8d129e6613575fdf6df8022e8.png",
+    "category": "Shaped",
+    "investmentStats": []
+  },
+  {
+    "id": "enhanced_stability",
+    "hash": 2057879635,
+    "name": "Enhanced Stability",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/9ddce607dd85d55bef0631473cfbf939.png",
+    "category": "Enhanced",
+    "investmentStats": [
+      {
+        "statHash": 155624089,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "aerodynamics",
+    "hash": 2136827418,
+    "name": "Aerodynamics",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/7d9bf2f6866fd01ff76eddd504a7e73b.png",
+    "category": "Shaped",
+    "investmentStats": [
+      {
+        "statHash": 3614673599,
+        "value": 7
+      },
+      {
+        "statHash": 2523465841,
+        "value": 7
+      }
+    ]
+  },
+  {
+    "id": "enhanced_accuracy",
+    "hash": 2243475693,
+    "name": "Enhanced Accuracy",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/513aba7f77dd503cf6c2a576029a8041.png",
+    "category": "Enhanced",
+    "investmentStats": [
+      {
+        "statHash": 1591432999,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "enhanced_draw_time",
+    "hash": 2274738792,
+    "name": "Enhanced Draw Time",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/78736e5f94bae918c2328f2994d14e1e.png",
+    "category": "Enhanced",
     "investmentStats": [
       {
         "statHash": 2961396640,
@@ -206,6 +625,20 @@
     ]
   },
   {
+    "id": "marksman_optics__low",
+    "hash": 2649250174,
+    "name": "Marksman Optics: Low",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/c6f465c5ac5d2a2205422481acb6ed4c.png",
+    "category": "Shaped",
+    "investmentStats": [
+      {
+        "statHash": 3555269338,
+        "value": -2
+      }
+    ]
+  },
+  {
     "id": "boss_spec",
     "hash": 2788909693,
     "name": "Boss Spec",
@@ -213,6 +646,38 @@
     "icon": "https://www.bungie.net/common/destiny2_content/icons/ac00602ee469e20d65c16234f8b6767c.png",
     "category": "Standard",
     "investmentStats": []
+  },
+  {
+    "id": "adept_persistence",
+    "hash": 2800463518,
+    "name": "Adept Persistence",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/bb9e39760c5fc4bba8fc84b06c9648c0.png",
+    "category": "Adept",
+    "investmentStats": [
+      {
+        "statHash": 3085395333,
+        "value": 10
+      },
+      {
+        "statHash": 1240592695,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "enhanced_handling",
+    "hash": 2924082573,
+    "name": "Enhanced Handling",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/5f01856c47ff0b1fcea5d8f2627f1fc5.png",
+    "category": "Enhanced",
+    "investmentStats": [
+      {
+        "statHash": 943549884,
+        "value": 10
+      }
+    ]
   },
   {
     "id": "adept_big_ones_spec",
@@ -236,6 +701,129 @@
         "value": 7
       }
     ]
+  },
+  {
+    "id": "overpressured_munitions",
+    "hash": 3176795729,
+    "name": "Overpressured Munitions",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/4fb0a0dbbe80ceeaf95a0ace368fc2c2.png",
+    "category": "Shaped",
+    "investmentStats": []
+  },
+  {
+    "id": "stay_in_the_fight",
+    "hash": 3176795732,
+    "name": "Stay in the Fight",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/6eff29e10d8c9b7c444dfd8cde3cb103.png",
+    "category": "Shaped",
+    "investmentStats": []
+  },
+  {
+    "id": "kill_shot",
+    "hash": 3176795733,
+    "name": "Kill Shot",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/dafc177285b3a5a994ffd716f1b5a14a.png",
+    "category": "Shaped",
+    "investmentStats": []
+  },
+  {
+    "id": "calm_amidst_chaos",
+    "hash": 3176795734,
+    "name": "Calm Amidst Chaos",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/f95264d47c1cf80d193b32bc0734f31d.png",
+    "category": "Shaped",
+    "investmentStats": []
+  },
+  {
+    "id": "adept_impact",
+    "hash": 3208647503,
+    "name": "Adept Impact",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/23aa718c69eb92f3ecd39cf9275cf7f0.png",
+    "category": "Adept",
+    "investmentStats": [
+      {
+        "statHash": 4043523819,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "cqc_optics__low",
+    "hash": 3310993845,
+    "name": "CQC Optics: Low",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/3db2bccc77344f4fb62e457fd49994fe.png",
+    "category": "Shaped",
+    "investmentStats": [
+      {
+        "statHash": 3555269338,
+        "value": -1
+      }
+    ]
+  },
+  {
+    "id": "enhanced_shield_duration",
+    "hash": 3392654408,
+    "name": "Enhanced Shield Duration",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/c2161966fec97e2c83e3792751750cbb.png",
+    "category": "Enhanced",
+    "investmentStats": [
+      {
+        "statHash": 1842278586,
+        "value": 10
+      },
+      {
+        "statHash": 2961396640,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "full_auto_retrofit",
+    "hash": 3564974257,
+    "name": "Full Auto Retrofit",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/118362b2a3fedb244c3bf160dea7699e.png",
+    "category": "Standard",
+    "investmentStats": []
+  },
+  {
+    "id": "synergy",
+    "hash": 3634656993,
+    "name": "Synergy",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/6d617baf834c3b867c3e1e3558ab97b8.png",
+    "category": "Shaped",
+    "investmentStats": []
+  },
+  {
+    "id": "enhanced_heat_generated",
+    "hash": 3720500948,
+    "name": "Enhanced Heat Generated",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/f9b77e179eb5f3220b31be6febd87e35.png",
+    "category": "Enhanced",
+    "investmentStats": [
+      {
+        "statHash": 3481294762,
+        "value": 10
+      }
+    ]
+  },
+  {
+    "id": "enhanced_charge_time",
+    "hash": 3779301690,
+    "name": "Enhanced Charge Time",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/dc9f0e1af5891360f2f145603392b0f7.png",
+    "category": "Enhanced",
+    "investmentStats": []
   },
   {
     "id": "radar_booster",
@@ -326,6 +914,24 @@
     ]
   },
   {
+    "id": "enhanced_persistence",
+    "hash": 4285947411,
+    "name": "Enhanced Persistence",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/a8c93704e41a30079210e8014e147356.png",
+    "category": "Enhanced",
+    "investmentStats": [
+      {
+        "statHash": 3085395333,
+        "value": 10
+      },
+      {
+        "statHash": 1240592695,
+        "value": 10
+      }
+    ]
+  },
+  {
     "id": "anti_flinch_spec",
     "hash": 2801436041,
     "name": "Anti-Flinch Spec",
@@ -351,611 +957,5 @@
     "icon": "https://www.bungie.net/common/destiny2_content/icons/fba96cc885a0b062dab457e9a8a2dc4a.png",
     "category": "Artifact",
     "investmentStats": []
-  },
-  {
-    "id": "anti_flinch",
-    "hash": 967505927,
-    "name": "Anti-Flinch",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/5bf9196ccb47b2d9548fd7f2b7675c89.png",
-    "category": "Shaped",
-    "investmentStats": []
-  },
-  {
-    "id": "synergy",
-    "hash": 3634656993,
-    "name": "Synergy",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/6d617baf834c3b867c3e1e3558ab97b8.png",
-    "category": "Shaped",
-    "investmentStats": []
-  },
-  {
-    "id": "bandolier",
-    "hash": 1350538053,
-    "name": "Bandolier",
-    "description": "Grants slightly increased ammo generation and magazine size.",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/1ed77f58367a23694141b29f760940b5.png",
-    "category": "Shaped",
-    "investmentStats": [
-      {
-        "statHash": 1931675084,
-        "value": 7
-      },
-      {
-        "statHash": 3871231066,
-        "value": 20
-      },
-      {
-        "statHash": 925767036,
-        "value": 1
-      }
-    ]
-  },
-  {
-    "id": "stunloader",
-    "hash": 1893041875,
-    "name": "Stunloader",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/f305d1a8d129e6613575fdf6df8022e8.png",
-    "category": "Shaped",
-    "investmentStats": []
-  },
-  {
-    "id": "aerodynamics",
-    "hash": 2136827418,
-    "name": "Aerodynamics",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/7d9bf2f6866fd01ff76eddd504a7e73b.png",
-    "category": "Shaped",
-    "investmentStats": [
-      {
-        "statHash": 3614673599,
-        "value": 7
-      },
-      {
-        "statHash": 2523465841,
-        "value": 7
-      }
-    ]
-  },
-  {
-    "id": "tension",
-    "hash": 1592913511,
-    "name": "Tension",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/3a90b0a263a5805b7415599447e89359.png",
-    "category": "Shaped",
-    "investmentStats": [
-      {
-        "statHash": 447667954,
-        "value": 7
-      },
-      {
-        "statHash": 2961396640,
-        "value": 7
-      },
-      {
-        "statHash": 1591432999,
-        "value": 7
-      }
-    ]
-  },
-  {
-    "id": "tactical",
-    "hash": 974161790,
-    "name": "Tactical",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/b8f6e3e41a381e4b27f2d50d6f3a9de0.png",
-    "category": "Shaped",
-    "investmentStats": [
-      {
-        "statHash": 4188031367,
-        "value": 7
-      },
-      {
-        "statHash": 943549884,
-        "value": 7
-      }
-    ]
-  },
-  {
-    "id": "ballistics",
-    "hash": 414077027,
-    "name": "Ballistics",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/f5b86c510e6bcfd0f75dff656340b557.png",
-    "category": "Shaped",
-    "investmentStats": [
-      {
-        "statHash": 1240592695,
-        "value": 7
-      },
-      {
-        "statHash": 155624089,
-        "value": 7
-      }
-    ]
-  },
-  {
-    "id": "cqc_optics__high",
-    "hash": 52638289,
-    "name": "CQC Optics: High",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/3cb712d78a8605aaf98a3d3336267e4e.png",
-    "category": "Shaped",
-    "investmentStats": [
-      {
-        "statHash": 3555269338,
-        "value": 1
-      }
-    ]
-  },
-  {
-    "id": "cqc_optics__low",
-    "hash": 3310993845,
-    "name": "CQC Optics: Low",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/3db2bccc77344f4fb62e457fd49994fe.png",
-    "category": "Shaped",
-    "investmentStats": [
-      {
-        "statHash": 3555269338,
-        "value": -1
-      }
-    ]
-  },
-  {
-    "id": "marksman_optics__high",
-    "hash": 1847129788,
-    "name": "Marksman Optics: High",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/2529e9ce321d480659e5d294c12a98c1.png",
-    "category": "Shaped",
-    "investmentStats": [
-      {
-        "statHash": 3555269338,
-        "value": 2
-      }
-    ]
-  },
-  {
-    "id": "marksman_optics__low",
-    "hash": 2649250174,
-    "name": "Marksman Optics: Low",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/c6f465c5ac5d2a2205422481acb6ed4c.png",
-    "category": "Shaped",
-    "investmentStats": [
-      {
-        "statHash": 3555269338,
-        "value": -2
-      }
-    ]
-  },
-  {
-    "id": "flight",
-    "hash": 624097433,
-    "name": "Flight",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/85020788130418201bea35577dcb2a7c.png",
-    "category": "Shaped",
-    "investmentStats": [
-      {
-        "statHash": 2523465841,
-        "value": 6
-      },
-      {
-        "statHash": 3085395333,
-        "value": 6
-      },
-      {
-        "statHash": 1240592695,
-        "value": 6
-      }
-    ]
-  },
-  {
-    "id": "jumpshot",
-    "hash": 1285109625,
-    "name": "Jumpshot",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/8fbe7000d9f7ba4ef6027af558288fe1.png",
-    "category": "Shaped",
-    "investmentStats": []
-  },
-  {
-    "id": "shattershafts",
-    "hash": 1285109627,
-    "name": "Shattershafts",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/91012b478a3c34641d7cadae6ab29c65.png",
-    "category": "Shaped",
-    "investmentStats": []
-  },
-  {
-    "id": "tungsten_bowstring",
-    "hash": 1285109626,
-    "name": "Tungsten Bowstring",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/197542bcc488b172132859c97f26d0d1.png",
-    "category": "Shaped",
-    "investmentStats": []
-  },
-  {
-    "id": "abundant_ammo",
-    "hash": 325500297,
-    "name": "Abundant Ammo",
-    "description": "Grants slightly increased ammo generation.",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/26614af76b46d7a5f178eeaeedc79c36.png",
-    "category": "Shaped",
-    "investmentStats": [
-      {
-        "statHash": 1931675084,
-        "value": 12
-      }
-    ]
-  },
-  {
-    "id": "calm_amidst_chaos",
-    "hash": 3176795734,
-    "name": "Calm Amidst Chaos",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/f95264d47c1cf80d193b32bc0734f31d.png",
-    "category": "Shaped",
-    "investmentStats": []
-  },
-  {
-    "id": "overpressured_munitions",
-    "hash": 3176795729,
-    "name": "Overpressured Munitions",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/4fb0a0dbbe80ceeaf95a0ace368fc2c2.png",
-    "category": "Shaped",
-    "investmentStats": []
-  },
-  {
-    "id": "stay_in_the_fight",
-    "hash": 3176795732,
-    "name": "Stay in the Fight",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/6eff29e10d8c9b7c444dfd8cde3cb103.png",
-    "category": "Shaped",
-    "investmentStats": []
-  },
-  {
-    "id": "kill_shot",
-    "hash": 3176795733,
-    "name": "Kill Shot",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/dafc177285b3a5a994ffd716f1b5a14a.png",
-    "category": "Shaped",
-    "investmentStats": []
-  },
-  {
-    "id": "opening_salvo",
-    "hash": 1254077559,
-    "name": "Opening Salvo",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/611acb82ebe581e405e7e599ced066ca.png",
-    "category": "Shaped",
-    "investmentStats": []
-  },
-  {
-    "id": "full_auto_retrofit",
-    "hash": 3564974257,
-    "name": "Full Auto Retrofit",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/118362b2a3fedb244c3bf160dea7699e.png",
-    "category": "Standard",
-    "investmentStats": []
-  },
-  {
-    "id": "sweaty_confetti",
-    "hash": 1643912408,
-    "name": "Sweaty Confetti",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/4d285357e8a67d9ba1a6c49e4ff7d8b8.png",
-    "category": "Standard",
-    "investmentStats": []
-  },
-  {
-    "id": "adept_accuracy",
-    "hash": 117884138,
-    "name": "Adept Accuracy",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/d1a6e37938406379c794954ecb2381a4.png",
-    "category": "Adept",
-    "investmentStats": [
-      {
-        "statHash": 1591432999,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "adept_impact",
-    "hash": 3208647503,
-    "name": "Adept Impact",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/23aa718c69eb92f3ecd39cf9275cf7f0.png",
-    "category": "Adept",
-    "investmentStats": [
-      {
-        "statHash": 4043523819,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "adept_persistence",
-    "hash": 2800463518,
-    "name": "Adept Persistence",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/bb9e39760c5fc4bba8fc84b06c9648c0.png",
-    "category": "Adept",
-    "investmentStats": [
-      {
-        "statHash": 3085395333,
-        "value": 10
-      },
-      {
-        "statHash": 1240592695,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "adept_shield_duration",
-    "hash": 1342449029,
-    "name": "Adept Shield Duration",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/f10df7c268f7051589c89b34ccf95122.png",
-    "category": "Adept",
-    "investmentStats": [
-      {
-        "statHash": 1842278586,
-        "value": 10
-      },
-      {
-        "statHash": 2961396640,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "adept_targeting",
-    "hash": 1710791394,
-    "name": "Adept Targeting",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/a9b660fc5d62ea59791dc98d5b8fe140.png",
-    "category": "Adept",
-    "investmentStats": [
-      {
-        "statHash": 1345609583,
-        "value": 7
-      }
-    ]
-  },
-  {
-    "id": "adept_mag",
-    "hash": 1225726778,
-    "name": "Adept Mag",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/8138ef763b4c59b2797a46fd9e2cd2c5.png",
-    "category": "Adept",
-    "investmentStats": [
-      {
-        "statHash": 3871231066,
-        "value": 40
-      },
-      {
-        "statHash": 925767036,
-        "value": 40
-      }
-    ]
-  },
-  {
-    "id": "enhanced_accuracy",
-    "hash": 2243475693,
-    "name": "Enhanced Accuracy",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/513aba7f77dd503cf6c2a576029a8041.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 1591432999,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_blast_radius",
-    "hash": 1252257233,
-    "name": "Enhanced Blast Radius",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/7491efe7090564c64cbf0558a86a4388.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 3614673599,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_charge_time",
-    "hash": 3779301690,
-    "name": "Enhanced Charge Time",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/dc9f0e1af5891360f2f145603392b0f7.png",
-    "category": "Enhanced",
-    "investmentStats": []
-  },
-  {
-    "id": "enhanced_draw_time",
-    "hash": 2274738792,
-    "name": "Enhanced Draw Time",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/78736e5f94bae918c2328f2994d14e1e.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 2961396640,
-        "value": 10
-      },
-      {
-        "statHash": 447667954,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_handling",
-    "hash": 2924082573,
-    "name": "Enhanced Handling",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/5f01856c47ff0b1fcea5d8f2627f1fc5.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 943549884,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_heat_generated",
-    "hash": 3720500948,
-    "name": "Enhanced Heat Generated",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/f9b77e179eb5f3220b31be6febd87e35.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 3481294762,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_impact",
-    "hash": 81592656,
-    "name": "Enhanced Impact",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/bd01de4766978e8c92dc6c428142ac33.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 4043523819,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_persistence",
-    "hash": 4285947411,
-    "name": "Enhanced Persistence",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/a8c93704e41a30079210e8014e147356.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 3085395333,
-        "value": 10
-      },
-      {
-        "statHash": 1240592695,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_projectile_speed",
-    "hash": 1653281839,
-    "name": "Enhanced Projectile Speed",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/011e9fb011d9017902e135929a0504cb.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 2523465841,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_range",
-    "hash": 260490301,
-    "name": "Enhanced Range",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/136b3d98df36ffa41774b7211f623b3b.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 1240592695,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_reload",
-    "hash": 711469637,
-    "name": "Enhanced Reload",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/63dc63bf2f473ca0a197738147404d7a.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 4188031367,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_shield_duration",
-    "hash": 3392654408,
-    "name": "Enhanced Shield Duration",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/c2161966fec97e2c83e3792751750cbb.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 1842278586,
-        "value": 10
-      },
-      {
-        "statHash": 2961396640,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_stability",
-    "hash": 2057879635,
-    "name": "Enhanced Stability",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/9ddce607dd85d55bef0631473cfbf939.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 155624089,
-        "value": 10
-      }
-    ]
-  },
-  {
-    "id": "enhanced_vent_speed",
-    "hash": 1455043575,
-    "name": "Enhanced Vent Speed",
-    "description": "",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/63dc63bf2f473ca0a197738147404d7a.png",
-    "category": "Enhanced",
-    "investmentStats": [
-      {
-        "statHash": 4188031367,
-        "value": 10
-      }
-    ]
   }
 ]
