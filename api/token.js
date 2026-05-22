@@ -8,9 +8,8 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const code = req.query.code || req.body.code;
-  if (!code) return res.status(400).json({ error: 'Missing code' });
+  if (!code) return res.status(400).json({ error: 'Local Error: Missing code parameter from URL redirect.' });
 
-  // Manually construct form-urlencoded string package
   const bodyParams = `grant_type=authorization_code&client_id=52277&code=${encodeURIComponent(code)}&redirect_uri=${encodeURIComponent('https://vercel.app')}`;
 
   const options = {
@@ -29,16 +28,15 @@ module.exports = async (req, res) => {
     bungieRes.on('data', (chunk) => { chunks.push(chunk); });
     bungieRes.on('end', () => {
       const responseBody = Buffer.concat(chunks).toString();
-      try {
-        const parsedData = JSON.parse(responseBody);
-        res.status(bungieRes.statusCode).json(parsedData);
-      } catch (e) {
-        res.status(500).json({ error: 'JSON parse error', raw: responseBody });
-      }
+      // Force pass whatever Bungie said straight to the browser console
+      res.status(bungieRes.statusCode).send(responseBody);
     });
   });
 
-  bungieRequest.on('error', (err) => res.status(500).json({ error: err.message }));
+  bungieRequest.on('error', (err) => {
+    res.status(500).json({ error: 'Local Vercel Server Crash', message: err.message });
+  });
+
   bungieRequest.write(bodyParams);
   bungieRequest.end();
 };
