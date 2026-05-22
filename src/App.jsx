@@ -542,7 +542,7 @@ export default function App() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          code: codeParam,
+          code: code,
           redirect_uri: redirectUri
         })
       });
