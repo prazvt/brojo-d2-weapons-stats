@@ -1143,6 +1143,11 @@ export default function App() {
                       <span className={`w-2 h-2 rounded-full ${elementStyles.bg}`} />
                       {activeWeapon.damageType} &bull; {activeWeapon.weaponType} &bull; {activeWeapon.frame}
                     </p>
+                    {activeWeapon.source && (
+                      <p className="text-[11px] text-slate-500 font-medium tracking-wide mt-1 flex items-center justify-center md:justify-start">
+                        {activeWeapon.source}
+                      </p>
+                    )}
                   </div>
                 </div>
 

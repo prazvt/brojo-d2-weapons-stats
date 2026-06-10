@@ -197,20 +197,23 @@ export async function sync() {
     const itemsUrl = `${BUNGIE_BASE_URL}${componentPaths.DestinyInventoryItemDefinition}`;
     const plugSetsUrl = `${BUNGIE_BASE_URL}${componentPaths.DestinyPlugSetDefinition}`;
     const statsUrl = `${BUNGIE_BASE_URL}${componentPaths.DestinyStatDefinition}`;
+    const collectiblesUrl = `${BUNGIE_BASE_URL}${componentPaths.DestinyCollectibleDefinition}`;
 
     console.log('--- Step 2: Downloading Component Tables ---');
-    console.log('Downloading items, plugSets, and stats tables. This can take 10-25 seconds...');
+    console.log('Downloading items, plugSets, stats, and collectibles tables. This can take 10-25 seconds...');
     
-    const [itemsTable, plugSetsTable, statsTable] = await Promise.all([
+    const [itemsTable, plugSetsTable, statsTable, collectiblesTable] = await Promise.all([
       fetchJson(itemsUrl, apiKey),
       fetchJson(plugSetsUrl, apiKey),
-      fetchJson(statsUrl, apiKey)
+      fetchJson(statsUrl, apiKey),
+      fetchJson(collectiblesUrl, apiKey)
     ]);
 
     console.log('Downloaded tables successfully.');
     console.log(`- Items Table Size: ${Object.keys(itemsTable).length} entries`);
     console.log(`- PlugSets Table Size: ${Object.keys(plugSetsTable).length} entries`);
     console.log(`- Stats Table Size: ${Object.keys(statsTable).length} entries`);
+    console.log(`- Collectibles Table Size: ${Object.keys(collectiblesTable).length} entries`);
 
     console.log('--- Step 3: Processing & Saving Stats Catalog ---');
     const statsMap = {};
@@ -386,6 +389,9 @@ export async function sync() {
         slot: slotName,
         ammoType: ammoTypeName,
         frame: intrinsicFrame,
+        source: itemDef.collectibleHash && collectiblesTable[itemDef.collectibleHash]
+          ? collectiblesTable[itemDef.collectibleHash].sourceString
+          : null,
         baseStats,
         sockets: parsedSockets
       });

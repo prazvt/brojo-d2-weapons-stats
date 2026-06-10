@@ -106,20 +106,23 @@ async function main() {
     const itemsUrl = `${BUNGIE_BASE_URL}${componentPaths.DestinyInventoryItemDefinition}`;
     const plugSetsUrl = `${BUNGIE_BASE_URL}${componentPaths.DestinyPlugSetDefinition}`;
     const statsUrl = `${BUNGIE_BASE_URL}${componentPaths.DestinyStatDefinition}`;
+    const collectiblesUrl = `${BUNGIE_BASE_URL}${componentPaths.DestinyCollectibleDefinition}`;
 
     console.log('\n--- Phase 2: Fetching Component Tables ---');
     console.log('Downloading tables. This may take 15-30 seconds depending on network speeds...');
     
-    const [itemsTable, plugSetsTable, statsTable] = await Promise.all([
+    const [itemsTable, plugSetsTable, statsTable, collectiblesTable] = await Promise.all([
       fetchJson(itemsUrl),
       fetchJson(plugSetsUrl),
-      fetchJson(statsUrl)
+      fetchJson(statsUrl),
+      fetchJson(collectiblesUrl)
     ]);
 
     console.log('Downloaded tables successfully.');
     console.log(`- Items Table Size: ${Object.keys(itemsTable).length} entries`);
     console.log(`- PlugSets Table Size: ${Object.keys(plugSetsTable).length} entries`);
     console.log(`- Stats Table Size: ${Object.keys(statsTable).length} entries`);
+    console.log(`- Collectibles Table Size: ${Object.keys(collectiblesTable).length} entries`);
 
     console.log('\n--- Phase 3: Processing Weapon Stats Catalog ---');
     // Extract human readable stats
@@ -305,6 +308,9 @@ async function main() {
         slot: slotName,
         ammoType: ammoTypeName,
         frame: intrinsicFrame,
+        source: itemDef.collectibleHash && collectiblesTable[itemDef.collectibleHash]
+          ? collectiblesTable[itemDef.collectibleHash].sourceString
+          : null,
         baseStats,
         sockets: parsedSockets
       });
