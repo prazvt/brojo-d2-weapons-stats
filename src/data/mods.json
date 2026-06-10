@@ -65,6 +65,15 @@
     ]
   },
   {
+    "id": "volatile_flow",
+    "hash": 255237663,
+    "name": "Volatile Flow",
+    "description": "",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/e695f6722f6b804915497124a4ca1878.png",
+    "category": "Artifact",
+    "investmentStats": []
+  },
+  {
     "id": "enhanced_range",
     "hash": 260490301,
     "name": "Enhanced Range",
@@ -228,6 +237,60 @@
         "value": -10
       }
     ]
+  },
+  {
+    "id": "overload_auto",
+    "hash": 810675987,
+    "name": "Overload Auto Rifle",
+    "description": "Disruption. Landing consecutive hits disrupts combatants, delaying ability energy regeneration, lowering combatant damage output, and stunning Overload Champions.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/b4f71d190b6be7e5927070577144fce3.png",
+    "category": "Anti-Champion",
+    "investmentStats": []
+  },
+  {
+    "id": "anti_barrier_pulse",
+    "hash": 810675989,
+    "name": "Anti-Barrier Pulse Rifle",
+    "description": "Shield-Piercing. Firing this weapon pierces combatant shields, stuns Barrier Champions, and makes the weapon strong against Barrier Champions.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/960d2d16931ad0871247a181ff7647d4.png",
+    "category": "Anti-Champion",
+    "investmentStats": []
+  },
+  {
+    "id": "unstoppable_scout",
+    "hash": 810675991,
+    "name": "Unstoppable Scout Rifle",
+    "description": "Strong against Unstoppable Champions. Aiming down sights for a short time loads a powerful explosive payload that stuns unshielded combatants and stuns Unstoppable Champions.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/9a5db1d6bf26647e1539983ae419094d.png",
+    "category": "Anti-Champion",
+    "investmentStats": []
+  },
+  {
+    "id": "unstoppable_glaive",
+    "hash": 846698090,
+    "name": "Unstoppable Glaive",
+    "description": "Strong against Unstoppable Champions. Aiming down sights for a short time loads a powerful explosive payload that stuns unshielded combatants and stuns Unstoppable Champions.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/007ea6d49b25a9eb998006931e348e51.png",
+    "category": "Anti-Champion",
+    "investmentStats": []
+  },
+  {
+    "id": "unstoppable_hc",
+    "hash": 846698093,
+    "name": "Unstoppable Hand Cannon",
+    "description": "Strong against Unstoppable Champions. Aiming down sights for a short time loads a powerful explosive payload that stuns unshielded combatants and stuns Unstoppable Champions.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/3516b95441c13e2a25892118684ef8af.png",
+    "category": "Anti-Champion",
+    "investmentStats": []
+  },
+  {
+    "id": "anti_barrier_auto",
+    "hash": 846698094,
+    "name": "Anti-Barrier Auto Rifle",
+    "description": "Shield-Piercing. Firing this weapon pierces combatant shields, stuns Barrier Champions, and makes the weapon strong against Barrier Champions.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/fd1120a2c398e906996a8369bf375762.png",
+    "category": "Anti-Champion",
+    "investmentStats": []
   },
   {
     "id": "icarus_grip",
@@ -835,6 +898,24 @@
     "investmentStats": []
   },
   {
+    "id": "overload_smg",
+    "hash": 3803076561,
+    "name": "Overload Submachine Gun",
+    "description": "Disruption. Landing consecutive hits disrupts combatants, delaying ability energy regeneration, lowering combatant damage output, and stunning Overload Champions.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/8bb684eec1afb53877e2e57134c28572.png",
+    "category": "Anti-Champion",
+    "investmentStats": []
+  },
+  {
+    "id": "anti_barrier_scout",
+    "hash": 3803076562,
+    "name": "Anti-Barrier Scout Rifle",
+    "description": "Shield-Piercing. Firing this weapon pierces combatant shields, stuns Barrier Champions, and makes the weapon strong against Barrier Champions.",
+    "icon": "https://www.bungie.net/common/destiny2_content/icons/59779e8b62c025b4e2b3face582cd8c5.png",
+    "category": "Anti-Champion",
+    "investmentStats": []
+  },
+  {
     "id": "adept_stability",
     "hash": 4003264426,
     "name": "Adept Stability",
@@ -859,45 +940,21 @@
   },
   {
     "id": "overload_pulse",
-    "hash": 4217417019,
+    "hash": 4152932096,
     "name": "Overload Pulse Rifle",
     "description": "Disruption. Landing consecutive hits disrupts combatants, delaying ability energy regeneration, lowering combatant damage output, and stunning Overload Champions.",
     "icon": "https://www.bungie.net/common/destiny2_content/icons/781184e10d840a1463298cffd822aa02.png",
     "category": "Anti-Champion",
-    "investmentStats": [
-      {
-        "statHash": 3578062600,
-        "value": 1
-      }
-    ]
-  },
-  {
-    "id": "overload_smg",
-    "hash": 4217417020,
-    "name": "Overload Submachine Gun",
-    "description": "Disruption. Landing consecutive hits disrupts combatants, delaying ability energy regeneration, lowering combatant damage output, and stunning Overload Champions.",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/8bb684eec1afb53877e2e57134c28572.png",
-    "category": "Anti-Champion",
-    "investmentStats": [
-      {
-        "statHash": 3578062600,
-        "value": 1
-      }
-    ]
+    "investmentStats": []
   },
   {
     "id": "unstoppable_bow",
-    "hash": 4217417021,
+    "hash": 4152932102,
     "name": "Unstoppable Bow",
     "description": "Strong against Unstoppable Champions. Aiming down sights for a short time loads a powerful explosive payload that stuns unshielded combatants and stuns Unstoppable Champions.",
     "icon": "https://www.bungie.net/common/destiny2_content/icons/286b844dd82bdc5f4fffa7671e283c60.png",
     "category": "Anti-Champion",
-    "investmentStats": [
-      {
-        "statHash": 3578062600,
-        "value": 1
-      }
-    ]
+    "investmentStats": []
   },
   {
     "id": "adept_handling",
@@ -947,15 +1004,6 @@
     "description": "Slightly improves the benefits provided by this weapon's Origin Traits.",
     "icon": "https://www.bungie.net/common/destiny2_content/icons/8fdd6abaa158ef90014fdd65abe25bbf.png",
     "category": "Modern",
-    "investmentStats": []
-  },
-  {
-    "id": "volatile_flow",
-    "hash": 4217417025,
-    "name": "Volatile Flow",
-    "description": "Void weapons gain Volatile Rounds upon picking up an Orb of Power. Active seasonal modifier.",
-    "icon": "https://www.bungie.net/common/destiny2_content/icons/fba96cc885a0b062dab457e9a8a2dc4a.png",
-    "category": "Artifact",
     "investmentStats": []
   }
 ]

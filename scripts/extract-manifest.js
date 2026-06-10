@@ -142,9 +142,11 @@ async function main() {
     for (const [itemHashStr, itemDef] of Object.entries(itemsTable)) {
       const itemHash = parseInt(itemHashStr);
 
-      // itemType: 3 represents DestinyItemType.Weapon
+      // itemType: 3 represents DestinyItemType.Weapon, or check itemTypeDisplayName for Auto Rifle
       // We also verify itemDef.sockets exists to build rolls
-      if (itemDef.itemType !== 3 || !itemDef.sockets) continue;
+      const isWeapon = itemDef.itemType === 3;
+      const isAutoRifle = itemDef.itemTypeDisplayName && itemDef.itemTypeDisplayName.includes('Auto Rifle');
+      if (!(isWeapon || isAutoRifle) || !itemDef.sockets) continue;
 
       // Filter out dummy/test weapons
       if (!itemDef.displayProperties?.name || itemDef.displayProperties.name.includes('Test Weapon')) continue;
