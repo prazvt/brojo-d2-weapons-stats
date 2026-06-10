@@ -397,8 +397,38 @@ export async function sync() {
       });
     }
 
-    console.log(`Processed ${prunedWeapons.length} weapons.`);
-    fs.writeFileSync(path.join(OUTPUT_DIR, 'weapons.json'), JSON.stringify(prunedWeapons));
+    // Deduplicate the weapon list by name. If multiple items share the same name,
+    // compare their objects and only retain the primary version that has a valid 'sockets'
+    // property or a non-placeholder 'elementalType' (e.g. prioritize the real Kinetic/Stasis
+    // version and filter out dev curation copies).
+    const weaponsByName = {};
+    for (const weapon of prunedWeapons) {
+      const itemDef = itemsTable[weapon.hash];
+      let score = 0;
+      if (itemDef) {
+        if (itemDef.itemType === 3) score += 10000;
+        if (itemDef.defaultDamageType && itemDef.defaultDamageType !== 0) score += 5000;
+        if (itemDef.sockets) {
+          score += 1000;
+          if (itemDef.sockets.socketEntries) {
+            score += itemDef.sockets.socketEntries.length;
+          }
+        }
+      }
+
+      const existing = weaponsByName[weapon.name];
+      if (!existing || score > existing.score) {
+        weaponsByName[weapon.name] = {
+          score,
+          data: weapon
+        };
+      }
+    }
+
+    const deduplicatedWeapons = Object.values(weaponsByName).map(w => w.data);
+
+    console.log(`Processed ${deduplicatedWeapons.length} weapons.`);
+    fs.writeFileSync(path.join(OUTPUT_DIR, 'weapons.json'), JSON.stringify(deduplicatedWeapons));
     console.log('Saved weapons.json.');
 
     console.log('--- Step 5: Processing Perks & Plugs ---');
@@ -585,7 +615,7 @@ export async function sync() {
 
     console.log('--- Automated Sync Pipeline Completed Successfully! ---');
     const summary = {
-      weaponsCount: prunedWeapons.length,
+      weaponsCount: deduplicatedWeapons.length,
       perksCount: Object.keys(perksMap).length,
       modsCount: extractedMods.length,
       weaponsSizeMB: (fs.statSync(path.join(OUTPUT_DIR, 'weapons.json')).size / (1024 * 1024)).toFixed(2),

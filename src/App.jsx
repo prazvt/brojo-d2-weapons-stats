@@ -6,6 +6,30 @@ import {
   RefreshCw, Target, Plus
 } from 'lucide-react';
 
+// Helper to resolve icon path to Bungie's live server if relative or missing prefix
+const resolveIcon = (iconPath) => {
+  if (!iconPath) return '';
+  if (iconPath.startsWith('http://') || iconPath.startsWith('https://')) {
+    return iconPath;
+  }
+  const cleanPath = iconPath.startsWith('/') ? iconPath : `/${iconPath}`;
+  return `https://bungie.net${cleanPath}`;
+};
+
+// Fallback error handler for broken icon references
+const handleImgError = (e) => {
+  const currentSrc = e.target.src;
+  if (currentSrc && !currentSrc.includes('https://bungie.net') && !currentSrc.includes('http://bungie.net')) {
+    try {
+      const url = new URL(currentSrc);
+      e.target.src = `https://bungie.net${url.pathname}${url.search}`;
+    } catch (err) {
+      const path = currentSrc.startsWith('/') ? currentSrc : `/${currentSrc}`;
+      e.target.src = `https://bungie.net${path}`;
+    }
+  }
+};
+
 // Static Data Imports
 import weaponsData from './data/weapons.json';
 import perksData from './data/perks.json';
@@ -1598,7 +1622,7 @@ export default function App() {
                                 className={`w-11 h-11 rounded-full border flex items-center justify-center relative cursor-pointer active:scale-90 transition-all duration-200 ${btnClasses}`}
                               >
                                 {perk.icon ? (
-                                  <img src={perk.icon} alt={perk.name} className="w-7 h-7 rounded-full" />
+                                  <img src={resolveIcon(perk.icon)} onError={handleImgError} alt={perk.name} className="w-7 h-7 rounded-full" />
                                 ) : (
                                   <div className="w-7 h-7 bg-slate-800 rounded-full flex items-center justify-center text-slate-500 text-[10px]">
                                     P
@@ -1770,7 +1794,7 @@ export default function App() {
               <div className="flex items-center gap-2">
                 {hoveredPerk.icon && (
                   <div className="relative">
-                    <img src={hoveredPerk.icon} alt="" className="w-8 h-8 rounded-full border border-amber-500/50 bg-space-dark/80 shadow-[0_0_8px_rgba(245,158,11,0.3)] animate-pulse" />
+                    <img src={resolveIcon(hoveredPerk.icon)} onError={handleImgError} alt="" className="w-8 h-8 rounded-full border border-amber-500/50 bg-space-dark/80 shadow-[0_0_8px_rgba(245,158,11,0.3)] animate-pulse" />
                     <span className="absolute -bottom-1 -left-1 w-3.5 h-3.5 rounded-full bg-amber-500 border border-slate-950 flex items-center justify-center text-[7px] text-slate-955 font-black">✦</span>
                   </div>
                 )}
@@ -1789,7 +1813,7 @@ export default function App() {
             ) : (
               <div className="flex items-center gap-2">
                 {hoveredPerk.icon ? (
-                  <img src={hoveredPerk.icon} alt="" className="w-8 h-8 rounded-full border border-glass bg-space-dark/80 shrink-0" />
+                  <img src={resolveIcon(hoveredPerk.icon)} onError={handleImgError} alt="" className="w-8 h-8 rounded-full border border-glass bg-space-dark/80 shrink-0" />
                 ) : (
                   hoveredPerk.isMod && (
                     <div className="w-8 h-8 rounded-full border border-glass bg-space-dark/80 flex items-center justify-center text-slate-350 shrink-0">
