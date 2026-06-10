@@ -206,9 +206,7 @@ async function main() {
         // Reusable static plugs
         if (entry.reusablePlugItems) {
           for (const item of entry.reusablePlugItems) {
-            if (item.currentlyCanRoll !== false) {
-              possiblePlugs.add(item.plugItemHash);
-            }
+            possiblePlugs.add(item.plugItemHash);
           }
         }
 
@@ -217,9 +215,7 @@ async function main() {
         if (randomPlugSetHash && plugSetsTable[randomPlugSetHash]) {
           const plugSet = plugSetsTable[randomPlugSetHash];
           for (const plug of plugSet.reusablePlugItems || []) {
-            if (plug.currentlyCanRoll !== false) {
-              possiblePlugs.add(plug.plugItemHash);
-            }
+            possiblePlugs.add(plug.plugItemHash);
           }
         }
 
@@ -228,9 +224,7 @@ async function main() {
         if (reusablePlugSetHash && plugSetsTable[reusablePlugSetHash]) {
           const plugSet = plugSetsTable[reusablePlugSetHash];
           for (const plug of plugSet.reusablePlugItems || []) {
-            if (plug.currentlyCanRoll !== false) {
-              possiblePlugs.add(plug.plugItemHash);
-            }
+            possiblePlugs.add(plug.plugItemHash);
           }
         }
 

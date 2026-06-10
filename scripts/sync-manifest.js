@@ -293,9 +293,7 @@ export async function sync() {
 
         if (entry.reusablePlugItems) {
           for (const item of entry.reusablePlugItems) {
-            if (item.currentlyCanRoll !== false) {
-              possiblePlugs.add(item.plugItemHash);
-            }
+            possiblePlugs.add(item.plugItemHash);
           }
         }
 
@@ -303,9 +301,7 @@ export async function sync() {
         if (randomPlugSetHash && plugSetsTable[randomPlugSetHash]) {
           const plugSet = plugSetsTable[randomPlugSetHash];
           for (const plug of plugSet.reusablePlugItems || []) {
-            if (plug.currentlyCanRoll !== false) {
-              possiblePlugs.add(plug.plugItemHash);
-            }
+            possiblePlugs.add(plug.plugItemHash);
           }
         }
 
@@ -313,9 +309,7 @@ export async function sync() {
         if (reusablePlugSetHash && plugSetsTable[reusablePlugSetHash]) {
           const plugSet = plugSetsTable[reusablePlugSetHash];
           for (const plug of plugSet.reusablePlugItems || []) {
-            if (plug.currentlyCanRoll !== false) {
-              possiblePlugs.add(plug.plugItemHash);
-            }
+            possiblePlugs.add(plug.plugItemHash);
           }
         }
 
