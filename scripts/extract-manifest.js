@@ -142,11 +142,11 @@ async function main() {
     for (const [itemHashStr, itemDef] of Object.entries(itemsTable)) {
       const itemHash = parseInt(itemHashStr);
 
-      // itemType: 3 represents DestinyItemType.Weapon, or check itemTypeDisplayName for Auto Rifle
+      // itemType: 3 represents DestinyItemType.Weapon, with explicit exception for new update weapons (like Decatur 02)
       // We also verify itemDef.sockets exists to build rolls
       const isWeapon = itemDef.itemType === 3;
-      const isAutoRifle = itemDef.itemTypeDisplayName && itemDef.itemTypeDisplayName.includes('Auto Rifle');
-      if (!(isWeapon || isAutoRifle) || !itemDef.sockets) continue;
+      const isException = itemDef.displayProperties?.name && itemDef.displayProperties.name.includes('DECATUR 02');
+      if (!(isWeapon || isException) || !itemDef.sockets || !itemDef.sockets.socketEntries || itemDef.sockets.socketEntries.length === 0) continue;
 
       // Filter out dummy/test weapons
       if (!itemDef.displayProperties?.name || itemDef.displayProperties.name.includes('Test Weapon')) continue;
@@ -317,28 +317,28 @@ async function main() {
     }
 
     // Deduplicate the weapon list by name. If multiple items share the same name,
-    // compare their objects and only retain the primary version that has a valid 'sockets'
-    // property or a non-placeholder 'elementalType' (e.g. prioritize the real Kinetic/Stasis
-    // version and filter out dev curation copies).
+    // compare their objects and always retain the primary version that has the most
+    // populated socket arrays (parsed sockets), using itemType and defaultDamageType
+    // as tie-breakers.
     const weaponsByName = {};
     for (const weapon of prunedWeapons) {
       const itemDef = itemsTable[weapon.hash];
-      let score = 0;
+      
+      // Score based on number of populated socket arrays
+      let score = weapon.sockets ? weapon.sockets.length : 0;
+      
+      // Tie-breakers
+      let tieBreaker = 0;
       if (itemDef) {
-        if (itemDef.itemType === 3) score += 10000;
-        if (itemDef.defaultDamageType && itemDef.defaultDamageType !== 0) score += 5000;
-        if (itemDef.sockets) {
-          score += 1000;
-          if (itemDef.sockets.socketEntries) {
-            score += itemDef.sockets.socketEntries.length;
-          }
-        }
+        if (itemDef.itemType === 3) tieBreaker += 10000;
+        if (itemDef.defaultDamageType && itemDef.defaultDamageType !== 0) tieBreaker += 5000;
       }
 
       const existing = weaponsByName[weapon.name];
-      if (!existing || score > existing.score) {
+      if (!existing || score > existing.score || (score === existing.score && tieBreaker > existing.tieBreaker)) {
         weaponsByName[weapon.name] = {
           score,
+          tieBreaker,
           data: weapon
         };
       }
